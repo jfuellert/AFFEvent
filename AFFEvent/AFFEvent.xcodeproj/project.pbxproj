@@ -29,6 +29,7 @@
 		76545327179C4289003F40B3 /* AFFEventSystemHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452F1179C4130003F40B3 /* AFFEventSystemHandler.h */; };
 		76545328179C4289003F40B3 /* ARCHelper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452F4179C4130003F40B3 /* ARCHelper.h */; };
 		76545329179C42C1003F40B3 /* libAFFEvent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 765452D4179C40DB003F40B3 /* libAFFEvent.a */; };
+		76545395179C6B8B003F40B3 /* TestButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 76545394179C6B8B003F40B3 /* TestButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,6 +78,8 @@
 		76545313179C415D003F40B3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		76545315179C415D003F40B3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		76545316179C415D003F40B3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		76545393179C6B8B003F40B3 /* TestButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestButton.h; path = TestButton/TestButton.h; sourceTree = "<group>"; };
+		76545394179C6B8B003F40B3 /* TestButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestButton.m; path = TestButton/TestButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +211,7 @@
 		76545303179C415D003F40B3 /* TestHarness */ = {
 			isa = PBXGroup;
 			children = (
+				76545392179C6B72003F40B3 /* TestButton */,
 				7654530C179C415D003F40B3 /* AppDelegate.h */,
 				7654530D179C415D003F40B3 /* AppDelegate.m */,
 				76545315179C415D003F40B3 /* ViewController.h */,
@@ -229,6 +233,15 @@
 				76545313179C415D003F40B3 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		76545392179C6B72003F40B3 /* TestButton */ = {
+			isa = PBXGroup;
+			children = (
+				76545393179C6B8B003F40B3 /* TestButton.h */,
+				76545394179C6B8B003F40B3 /* TestButton.m */,
+			);
+			name = TestButton;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,6 +341,7 @@
 				7654530A179C415D003F40B3 /* main.m in Sources */,
 				7654530E179C415D003F40B3 /* AppDelegate.m in Sources */,
 				76545317179C415D003F40B3 /* ViewController.m in Sources */,
+				76545395179C6B8B003F40B3 /* TestButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

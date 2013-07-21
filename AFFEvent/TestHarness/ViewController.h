@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class TestButton;
+
 @interface ViewController : UIViewController
+{
+    @private
+    UILabel *outputLabel;
+    UILabel *textLabel;
+
+    TestButton *buttonOne;
+    TestButton *buttonTwo;
+}
 
 @end
