@@ -1,0 +1,485 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		765452D8179C40DB003F40B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 765452D7179C40DB003F40B3 /* Foundation.framework */; };
+		765452F5179C4130003F40B3 /* AFFEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 765452E7179C4130003F40B3 /* AFFEvent.m */; };
+		765452F6179C4130003F40B3 /* AFFEventAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 765452EA179C4130003F40B3 /* AFFEventAPI.m */; };
+		765452F7179C4130003F40B3 /* AFFEventHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 765452EF179C4130003F40B3 /* AFFEventHandler.m */; };
+		765452F8179C4130003F40B3 /* AFFEventSystemHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 765452F2179C4130003F40B3 /* AFFEventSystemHandler.m */; };
+		765452FF179C415D003F40B3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 765452FE179C415D003F40B3 /* UIKit.framework */; };
+		76545300179C415D003F40B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 765452D7179C40DB003F40B3 /* Foundation.framework */; };
+		76545302179C415D003F40B3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76545301179C415D003F40B3 /* CoreGraphics.framework */; };
+		76545308179C415D003F40B3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76545306179C415D003F40B3 /* InfoPlist.strings */; };
+		7654530A179C415D003F40B3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76545309179C415D003F40B3 /* main.m */; };
+		7654530E179C415D003F40B3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7654530D179C415D003F40B3 /* AppDelegate.m */; };
+		76545310179C415D003F40B3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7654530F179C415D003F40B3 /* Default.png */; };
+		76545312179C415D003F40B3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 76545311179C415D003F40B3 /* Default@2x.png */; };
+		76545314179C415D003F40B3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 76545313179C415D003F40B3 /* Default-568h@2x.png */; };
+		76545317179C415D003F40B3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76545316179C415D003F40B3 /* ViewController.m */; };
+		76545323179C4289003F40B3 /* AFFEvent.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452E6179C4130003F40B3 /* AFFEvent.h */; };
+		76545324179C4289003F40B3 /* AFFEventAPI.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452E9179C4130003F40B3 /* AFFEventAPI.h */; };
+		76545325179C4289003F40B3 /* AFFEventCenter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452EC179C4130003F40B3 /* AFFEventCenter.h */; };
+		76545326179C4289003F40B3 /* AFFEventHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452EE179C4130003F40B3 /* AFFEventHandler.h */; };
+		76545327179C4289003F40B3 /* AFFEventSystemHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452F1179C4130003F40B3 /* AFFEventSystemHandler.h */; };
+		76545328179C4289003F40B3 /* ARCHelper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452F4179C4130003F40B3 /* ARCHelper.h */; };
+		76545329179C42C1003F40B3 /* libAFFEvent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 765452D4179C40DB003F40B3 /* libAFFEvent.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		765452D2179C40DB003F40B3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				76545323179C4289003F40B3 /* AFFEvent.h in CopyFiles */,
+				76545324179C4289003F40B3 /* AFFEventAPI.h in CopyFiles */,
+				76545325179C4289003F40B3 /* AFFEventCenter.h in CopyFiles */,
+				76545326179C4289003F40B3 /* AFFEventHandler.h in CopyFiles */,
+				76545327179C4289003F40B3 /* AFFEventSystemHandler.h in CopyFiles */,
+				76545328179C4289003F40B3 /* ARCHelper.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		765452D4179C40DB003F40B3 /* libAFFEvent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAFFEvent.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		765452D7179C40DB003F40B3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		765452DB179C40DB003F40B3 /* AFFEvent-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AFFEvent-Prefix.pch"; sourceTree = "<group>"; };
+		765452E6179C4130003F40B3 /* AFFEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFFEvent.h; sourceTree = "<group>"; };
+		765452E7179C4130003F40B3 /* AFFEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFFEvent.m; sourceTree = "<group>"; };
+		765452E9179C4130003F40B3 /* AFFEventAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFFEventAPI.h; sourceTree = "<group>"; };
+		765452EA179C4130003F40B3 /* AFFEventAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFFEventAPI.m; sourceTree = "<group>"; };
+		765452EC179C4130003F40B3 /* AFFEventCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFFEventCenter.h; sourceTree = "<group>"; };
+		765452EE179C4130003F40B3 /* AFFEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFFEventHandler.h; sourceTree = "<group>"; };
+		765452EF179C4130003F40B3 /* AFFEventHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFFEventHandler.m; sourceTree = "<group>"; };
+		765452F1179C4130003F40B3 /* AFFEventSystemHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFFEventSystemHandler.h; sourceTree = "<group>"; };
+		765452F2179C4130003F40B3 /* AFFEventSystemHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFFEventSystemHandler.m; sourceTree = "<group>"; };
+		765452F4179C4130003F40B3 /* ARCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCHelper.h; sourceTree = "<group>"; };
+		765452FD179C415D003F40B3 /* TestHarness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestHarness.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		765452FE179C415D003F40B3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		76545301179C415D003F40B3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		76545305179C415D003F40B3 /* TestHarness-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TestHarness-Info.plist"; sourceTree = "<group>"; };
+		76545307179C415D003F40B3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		76545309179C415D003F40B3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7654530B179C415D003F40B3 /* TestHarness-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TestHarness-Prefix.pch"; sourceTree = "<group>"; };
+		7654530C179C415D003F40B3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		7654530D179C415D003F40B3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7654530F179C415D003F40B3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		76545311179C415D003F40B3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		76545313179C415D003F40B3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		76545315179C415D003F40B3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		76545316179C415D003F40B3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		765452D1179C40DB003F40B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				765452D8179C40DB003F40B3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		765452FA179C415D003F40B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76545329179C42C1003F40B3 /* libAFFEvent.a in Frameworks */,
+				765452FF179C415D003F40B3 /* UIKit.framework in Frameworks */,
+				76545300179C415D003F40B3 /* Foundation.framework in Frameworks */,
+				76545302179C415D003F40B3 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		765452CB179C40DB003F40B3 = {
+			isa = PBXGroup;
+			children = (
+				765452D9179C40DB003F40B3 /* AFFEvent */,
+				76545303179C415D003F40B3 /* TestHarness */,
+				765452D6179C40DB003F40B3 /* Frameworks */,
+				765452D5179C40DB003F40B3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		765452D5179C40DB003F40B3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				765452D4179C40DB003F40B3 /* libAFFEvent.a */,
+				765452FD179C415D003F40B3 /* TestHarness.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		765452D6179C40DB003F40B3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				765452D7179C40DB003F40B3 /* Foundation.framework */,
+				765452FE179C415D003F40B3 /* UIKit.framework */,
+				76545301179C415D003F40B3 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		765452D9179C40DB003F40B3 /* AFFEvent */ = {
+			isa = PBXGroup;
+			children = (
+				765452E5179C4130003F40B3 /* AFFEvent */,
+				765452E8179C4130003F40B3 /* AFFEventAPI */,
+				765452EB179C4130003F40B3 /* AFFEventCenter */,
+				765452ED179C4130003F40B3 /* AFFEventHandler */,
+				765452F0179C4130003F40B3 /* AFFEventSystemHandler */,
+				765452F3179C4130003F40B3 /* ARCHelper */,
+				765452DA179C40DB003F40B3 /* Supporting Files */,
+			);
+			path = AFFEvent;
+			sourceTree = "<group>";
+		};
+		765452DA179C40DB003F40B3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				765452DB179C40DB003F40B3 /* AFFEvent-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		765452E5179C4130003F40B3 /* AFFEvent */ = {
+			isa = PBXGroup;
+			children = (
+				765452E6179C4130003F40B3 /* AFFEvent.h */,
+				765452E7179C4130003F40B3 /* AFFEvent.m */,
+			);
+			path = AFFEvent;
+			sourceTree = "<group>";
+		};
+		765452E8179C4130003F40B3 /* AFFEventAPI */ = {
+			isa = PBXGroup;
+			children = (
+				765452E9179C4130003F40B3 /* AFFEventAPI.h */,
+				765452EA179C4130003F40B3 /* AFFEventAPI.m */,
+			);
+			path = AFFEventAPI;
+			sourceTree = "<group>";
+		};
+		765452EB179C4130003F40B3 /* AFFEventCenter */ = {
+			isa = PBXGroup;
+			children = (
+				765452EC179C4130003F40B3 /* AFFEventCenter.h */,
+			);
+			path = AFFEventCenter;
+			sourceTree = "<group>";
+		};
+		765452ED179C4130003F40B3 /* AFFEventHandler */ = {
+			isa = PBXGroup;
+			children = (
+				765452EE179C4130003F40B3 /* AFFEventHandler.h */,
+				765452EF179C4130003F40B3 /* AFFEventHandler.m */,
+			);
+			path = AFFEventHandler;
+			sourceTree = "<group>";
+		};
+		765452F0179C4130003F40B3 /* AFFEventSystemHandler */ = {
+			isa = PBXGroup;
+			children = (
+				765452F1179C4130003F40B3 /* AFFEventSystemHandler.h */,
+				765452F2179C4130003F40B3 /* AFFEventSystemHandler.m */,
+			);
+			path = AFFEventSystemHandler;
+			sourceTree = "<group>";
+		};
+		765452F3179C4130003F40B3 /* ARCHelper */ = {
+			isa = PBXGroup;
+			children = (
+				765452F4179C4130003F40B3 /* ARCHelper.h */,
+			);
+			path = ARCHelper;
+			sourceTree = "<group>";
+		};
+		76545303179C415D003F40B3 /* TestHarness */ = {
+			isa = PBXGroup;
+			children = (
+				7654530C179C415D003F40B3 /* AppDelegate.h */,
+				7654530D179C415D003F40B3 /* AppDelegate.m */,
+				76545315179C415D003F40B3 /* ViewController.h */,
+				76545316179C415D003F40B3 /* ViewController.m */,
+				76545304179C415D003F40B3 /* Supporting Files */,
+			);
+			path = TestHarness;
+			sourceTree = "<group>";
+		};
+		76545304179C415D003F40B3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				76545305179C415D003F40B3 /* TestHarness-Info.plist */,
+				76545306179C415D003F40B3 /* InfoPlist.strings */,
+				76545309179C415D003F40B3 /* main.m */,
+				7654530B179C415D003F40B3 /* TestHarness-Prefix.pch */,
+				7654530F179C415D003F40B3 /* Default.png */,
+				76545311179C415D003F40B3 /* Default@2x.png */,
+				76545313179C415D003F40B3 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		765452D3179C40DB003F40B3 /* AFFEvent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 765452E2179C40DB003F40B3 /* Build configuration list for PBXNativeTarget "AFFEvent" */;
+			buildPhases = (
+				765452D0179C40DB003F40B3 /* Sources */,
+				765452D1179C40DB003F40B3 /* Frameworks */,
+				765452D2179C40DB003F40B3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AFFEvent;
+			productName = AFFEvent;
+			productReference = 765452D4179C40DB003F40B3 /* libAFFEvent.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		765452FC179C415D003F40B3 /* TestHarness */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7654531E179C415D003F40B3 /* Build configuration list for PBXNativeTarget "TestHarness" */;
+			buildPhases = (
+				765452F9179C415D003F40B3 /* Sources */,
+				765452FA179C415D003F40B3 /* Frameworks */,
+				765452FB179C415D003F40B3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestHarness;
+			productName = TestHarness;
+			productReference = 765452FD179C415D003F40B3 /* TestHarness.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		765452CC179C40DB003F40B3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = AFApps;
+			};
+			buildConfigurationList = 765452CF179C40DB003F40B3 /* Build configuration list for PBXProject "AFFEvent" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 765452CB179C40DB003F40B3;
+			productRefGroup = 765452D5179C40DB003F40B3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				765452D3179C40DB003F40B3 /* AFFEvent */,
+				765452FC179C415D003F40B3 /* TestHarness */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		765452FB179C415D003F40B3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76545308179C415D003F40B3 /* InfoPlist.strings in Resources */,
+				76545310179C415D003F40B3 /* Default.png in Resources */,
+				76545312179C415D003F40B3 /* Default@2x.png in Resources */,
+				76545314179C415D003F40B3 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		765452D0179C40DB003F40B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				765452F5179C4130003F40B3 /* AFFEvent.m in Sources */,
+				765452F6179C4130003F40B3 /* AFFEventAPI.m in Sources */,
+				765452F7179C4130003F40B3 /* AFFEventHandler.m in Sources */,
+				765452F8179C4130003F40B3 /* AFFEventSystemHandler.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		765452F9179C415D003F40B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7654530A179C415D003F40B3 /* main.m in Sources */,
+				7654530E179C415D003F40B3 /* AppDelegate.m in Sources */,
+				76545317179C415D003F40B3 /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		76545306179C415D003F40B3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76545307179C415D003F40B3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		765452E0179C40DB003F40B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		765452E1179C40DB003F40B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		765452E3179C40DB003F40B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/AFFEvent.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AFFEvent/AFFEvent-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		765452E4179C40DB003F40B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/AFFEvent.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AFFEvent/AFFEvent-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		7654531F179C415D003F40B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TestHarness/TestHarness-Prefix.pch";
+				INFOPLIST_FILE = "TestHarness/TestHarness-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		76545320179C415D003F40B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TestHarness/TestHarness-Prefix.pch";
+				INFOPLIST_FILE = "TestHarness/TestHarness-Info.plist";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		765452CF179C40DB003F40B3 /* Build configuration list for PBXProject "AFFEvent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				765452E0179C40DB003F40B3 /* Debug */,
+				765452E1179C40DB003F40B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		765452E2179C40DB003F40B3 /* Build configuration list for PBXNativeTarget "AFFEvent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				765452E3179C40DB003F40B3 /* Debug */,
+				765452E4179C40DB003F40B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7654531E179C415D003F40B3 /* Build configuration list for PBXNativeTarget "TestHarness" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7654531F179C415D003F40B3 /* Debug */,
+				76545320179C415D003F40B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 765452CC179C40DB003F40B3 /* Project object */;
+}
