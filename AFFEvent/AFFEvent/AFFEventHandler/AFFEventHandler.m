@@ -1,9 +1,9 @@
 //
 //  AFFEventHandler.m
-//  AFFramework
+//  AF Apps
 //
 //  Created by Jeremy Fuellert on 2013-04-10.
-//  Copyright (c) 2013 AF Apps. All rights reserved. All rights reserved.
+//  Copyright (c) 2013 AF Apps. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person
 //  obtaining a copy of this software and associated documentation
