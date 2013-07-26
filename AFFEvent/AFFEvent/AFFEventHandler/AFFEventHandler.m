@@ -33,15 +33,14 @@
 #include <objc/message.h>
 
 @implementation AFFEventHandler
-@synthesize eventNameWithHash;
 @synthesize isOneTimeHandler;
 
-+ (id)handlerWithSender:(id)lsender andObserver:(id)lobserver andSelector:(SEL)lselector andEventName:(NSString *)leventName andArgs:(NSArray *)largs
++ (id)handlerWithSender:(id)lsender andObserver:(id)lobserver andSelector:(SEL)lselector andEventName:(const char *)leventName andArgs:(NSArray *)largs
 {
     return [[[self alloc] initWithSender:lsender andObserver:lobserver andSelector:lselector andEventName:leventName andArgs:largs] ah_autorelease];
 }
 
-- (id)initWithSender:(NSObject *)lsender andObserver:(NSObject *)lobserver andSelector:(SEL)lselector andEventName:(NSString *)leventName andArgs:(NSArray *)largs
+- (id)initWithSender:(NSObject *)lsender andObserver:(NSObject *)lobserver andSelector:(SEL)lselector andEventName:(const char *)leventName andArgs:(NSArray *)largs
 {
     self = [super init];
     if(self)
@@ -179,7 +178,6 @@
     sender = nil;
     observer = nil;
     selector = nil;
-    [eventNameWithHash ah_release];
     eventNameWithHash = nil;
     [args ah_release];
     args = nil;

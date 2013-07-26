@@ -40,14 +40,14 @@ $eventLevel (AFFEventAPI *)$eventName
 #define AFFEventSynthesize( $eventLevel, $eventName )                                               \
 $eventLevel (AFFEventAPI *)$eventName                                                               \
 {                                                                                                   \
-    return [[AFFEventSystemHandler eventSystem] eventForEventName:@#$eventName fromSender:self];    \
+    return [[AFFEventSystemHandler eventSystem] eventForEventName:#$eventName fromSender:self];    \
 }
 
 #define AFFRemoveAllEvents()                                                                        \
     [[AFFEventSystemHandler eventSystem] removeEventsFromSenderHash:[(NSObject *)self hash]]
 
 #define AFFRemoveEvent( $eventName )                                                                \
-    [[AFFEventSystemHandler eventSystem] removeEventNamed:@#$eventName fromSenderHash:[(NSObject *)self hash]];
+    [[AFFEventSystemHandler eventSystem] removeEventNamed:#$eventName fromSenderHash:[(NSObject *)self hash]];
 
 #define AFFHandler( $selector )                                                                     \
     [AFFEventHandler handlerWithSender:nil andObserver:self                                         \

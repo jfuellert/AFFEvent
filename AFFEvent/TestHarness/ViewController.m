@@ -55,15 +55,101 @@
     buttonTwo.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:buttonTwo];
     
-    [[buttonTwo evtPressed] addHandler:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+    [[buttonTwo evtPressed] addHandlerOneTime:AFFHandler(@selector(onButtonTwoPressed))];
+
 }
 
 //Actions
 - (void)onButtonOnePressed:(AFFEvent *)event
 {
-    NSLog(@"Sender : %@", event.sender);
-    NSLog(@"Data : %@", event.data);
-    NSLog(@"Event name : %@", event.eventName);
+//    NSLog(@"Sender : %@", event.sender);
+//    NSLog(@"Data : %@", event.data);
+//    NSLog(@"Event name : %@", event.eventName);
+    
+    NSLog(@"Message recieved");
     
     outputLabel.text = [NSString stringWithFormat:@"%d", [event.data intValue]];
 }

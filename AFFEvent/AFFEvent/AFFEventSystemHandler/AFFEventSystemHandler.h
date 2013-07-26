@@ -39,12 +39,12 @@
 
 + (AFFEventSystemHandler *)eventSystem;
 
-- (AFFEventAPI *)eventForEventName:(NSString *)eventName fromSender:(id)sender;
+- (AFFEventAPI *)eventForEventName:(const char *)eventName fromSender:(id)sender;
 - (NSArray *)eventsFromSenderHash:(NSUInteger)senderHash;
 
-- (void)removeEventNamed:(NSString *)eventName fromSenderHash:(NSUInteger)senderHash;
+- (void)removeEventNamed:(const char *)eventName fromSenderHash:(NSUInteger)senderHash;
 - (void)removeEventsFromSenderHash:(NSUInteger)senderHash;
 
-NSString *createEventName (NSString *eventName, NSUInteger hash);
+const char *createEventName (const char *eventName, NSUInteger hash);
 
 @end

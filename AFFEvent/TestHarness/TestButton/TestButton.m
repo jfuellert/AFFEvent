@@ -24,6 +24,7 @@ AFFEventSynthesize(AFFEventInstance, evtPressed);
 
 - (void)onPress
 {
+    NSLog(@"Send message");
     [[self evtPressed] send:[NSNumber numberWithInt:arc4random() % 100 + 1]];
 }
 

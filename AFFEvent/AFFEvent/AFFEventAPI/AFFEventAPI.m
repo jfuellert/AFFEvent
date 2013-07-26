@@ -37,12 +37,12 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
 /*
  * Constructor
  */
-+ (AFFEventAPI *)eventWithSender:(id)lsender andEventName:(NSString *)leventName
++ (AFFEventAPI *)eventWithSender:(id)lsender andEventName:(const char *)leventName
 {
     return [[[self alloc] initWithSender:lsender andEventName:leventName] ah_autorelease];
 }
 
-- (AFFEventAPI *)initWithSender:(id)lsender andEventName:(NSString *)leventName
+- (AFFEventAPI *)initWithSender:(id)lsender andEventName:(const char *)leventName
 {
     self = [super init];
     if(self)
@@ -63,7 +63,7 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
     
     target = handler->observer;
     handler->sender = sender;
-    handler.eventNameWithHash = createEventName(eventName, [(NSObject *)sender hash]);
+    handler->eventNameWithHash = createEventName(eventName, [(NSObject *)sender hash]);
     [handlers addObject:handler];
 
     return self;
@@ -77,7 +77,7 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
     target = handler->observer;
     handler.isOneTimeHandler = TRUE;
     handler->sender = sender;
-    handler.eventNameWithHash = createEventName(eventName, [(NSObject *)sender hash]);
+    handler->eventNameWithHash = createEventName(eventName, [(NSObject *)sender hash]);
     [handlers addObject:handler];
     
     return self;
@@ -139,7 +139,10 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
         
     for(AFFEventHandler *handler in handlersCopy)
     {
-        if([handler.eventNameWithHash isEqualToString:createEventName(eventName, [(NSObject *)sender hash])])
+        const char *handlerString = handler->eventNameWithHash;
+        const char *eventNameString = createEventName(eventName, [(NSObject *)sender hash]);
+        int result = strcmp(handlerString, eventNameString);
+        if(result == 0)
         {
             [handler invokeWithEvent:event];
             if(handler.isOneTimeHandler)

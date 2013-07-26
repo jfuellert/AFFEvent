@@ -36,14 +36,14 @@
     NSObject *observer;
     SEL selector;
     NSMutableArray *args;
+    const char *eventNameWithHash;
 }
 
 @property (nonatomic, assign) BOOL isOneTimeHandler;
-@property (nonatomic, retain) NSString *eventNameWithHash;
 
 //Creation
-+ (id)handlerWithSender:(id)lsender andObserver:(id)lobserver andSelector:(SEL)lselector andEventName:(NSString *)leventName andArgs:(NSArray *)largs;
-- (id)initWithSender:(NSObject *)lsender andObserver:(NSObject *)lobserver andSelector:(SEL)lselector andEventName:(NSString *)leventName andArgs:(NSArray *)largs;
++ (id)handlerWithSender:(id)lsender andObserver:(id)lobserver andSelector:(SEL)lselector andEventName:(const char *)leventName andArgs:(NSArray *)largs;
+- (id)initWithSender:(NSObject *)lsender andObserver:(NSObject *)lobserver andSelector:(SEL)lselector andEventName:(const char *)leventName andArgs:(NSArray *)largs;
 
 - (void)invokeWithEvent:(AFFEvent *)event;
 

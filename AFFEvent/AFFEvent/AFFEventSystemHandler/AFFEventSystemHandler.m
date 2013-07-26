@@ -40,6 +40,7 @@
 #import "AFFEventAPI.h"
 #import "AFFEventSystemHandler.h"
 #import "ARCHelper.h"
+#import <objc/runtime.h>
 
 @implementation AFFEventSystemHandler
 
@@ -68,14 +69,15 @@
 /*
  * AFFEventAPI retrieval
  */
-- (AFFEventAPI *)eventForEventName:(NSString *)eventName fromSender:(id)sender
+- (AFFEventAPI *)eventForEventName:(const char *)eventName fromSender:(id)sender
 {
-    NSString *senderHashKey = [NSString stringWithFormat:@"%d", [(NSObject *)sender hash]];
-    NSMutableDictionary *senderDictionary = nil;
+    const char *senderHashKey = createEventName(eventName, [(NSObject *)sender hash]);
+    
     AFFEventAPI *apiObject = nil;
+    NSMutableDictionary *senderDictionary = nil;
     
     //Create sender APIEvent object dictionary and / or objects if needed
-    senderDictionary = (NSMutableDictionary *)[eventDictionary objectForKey:senderHashKey];
+    senderDictionary = (NSMutableDictionary *)[eventDictionary objectForKey:[NSString stringWithUTF8String:eventName]];
     
     if(!senderDictionary)
     {
@@ -83,21 +85,34 @@
         apiObject = [[AFFEventAPI alloc] initWithSender:sender andEventName:eventName];
         
         NSMutableDictionary *newDictionary = [NSMutableDictionary dictionary];
-        [newDictionary setObject:apiObject forKey:eventName];
+        [newDictionary setObject:apiObject forKey:[NSString stringWithUTF8String:eventName]];
         
-        [eventDictionary setObject:newDictionary forKey:senderHashKey];
+        [eventDictionary setObject:newDictionary forKey:[NSString stringWithUTF8String:eventName]];
         
     } else
     {
-        apiObject = [(AFFEventAPI *)[senderDictionary objectForKey:eventName] ah_retain];
+        apiObject = [(AFFEventAPI *)[senderDictionary objectForKey:[NSString stringWithUTF8String:eventName]] ah_retain];
         
         if(!apiObject)
         {
             //Create event object and add it to the sender dictionary if none already exists
             apiObject = [[AFFEventAPI alloc] initWithSender:sender andEventName:eventName];
-            [senderDictionary setObject:apiObject forKey:eventName];
+            [senderDictionary setObject:apiObject forKey:[NSString stringWithUTF8String:eventName]];
         }
     }
+    
+//    AFFEventAPI *apiObject = objc_getAssociatedObject(sender, &senderHashKey);
+//    
+//    
+//    if(!apiObject)
+//    {
+//        //Create event object and add it to the sender dictionary if none already exists
+//        apiObject = [[AFFEventAPI alloc] initWithSender:sender andEventName:eventName];
+//        
+//        objc_setAssociatedObject(sender, &senderHashKey, apiObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//        
+//        [apiObject ah_release];
+//    }
     
     return [apiObject ah_autorelease];
 }
@@ -118,30 +133,47 @@
 /*
  * AFFEventAPI deletion
  */
-- (void)removeEventNamed:(NSString *)eventName fromSenderHash:(NSUInteger)senderHash
+- (void)removeEventNamed:(const char *)eventName fromSenderHash:(NSUInteger)senderHash
 {
+//    void objc_removeAssociatedObjects(id object)
+    
+    
+    
+    
+    
+    
+    
+    
+    
     NSMutableDictionary *dictionary = (NSMutableDictionary *)[eventDictionary objectForKey:[NSString stringWithFormat:@"%d", senderHash]];
-    [dictionary removeObjectForKey:eventName];
+    [dictionary removeObjectForKey:[NSString stringWithUTF8String:eventName]];
 }
 
 - (void)removeEventsFromSenderHash:(NSUInteger)senderHash;
 {
+//    objc_removeAssociatedObjects(<#id object#>)
     [eventDictionary removeObjectForKey:[NSString stringWithFormat:@"%d", senderHash]];
 }
 
 /*
  * AFFEvent name creation
  */
-NSString *createEventName (NSString *eventName, NSUInteger hash)
-{
-    return [NSString stringWithFormat:@"%@_%ud", eventName, hash];
-}
-
-- (void)dealloc
-{
-    [eventDictionary ah_release];
-    eventDictionary = nil;
-    [super ah_dealloc];
+const char *createEventName (const char *eventName, NSUInteger hash)
+{    
+    //Hash string
+    char hashString [40];
+    sprintf(hashString, "%d", hash);
+    
+    //Concat
+    char *eventWithHash = malloc(strlen(eventName) + strlen(hashString));
+    
+    if(!eventWithHash)
+        return NULL;
+    
+    strcpy(eventWithHash, eventName);
+    strcat(eventWithHash, hashString);
+    
+    return eventWithHash;
 }
 
 @end
