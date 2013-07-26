@@ -41,7 +41,7 @@
 - (void)removeHandler:(AFFEventHandler *)handler;
 - (BOOL)hasHandler:(AFFEventHandler *)handler;
 - (void)removeHandlers:(NSSet *)handlerSet;
-- (void)removeAllHandlers:(id)observer;
+- (void)removeAllHandlersForTarget:(id)observer;
 - (void)removeAllHandlers;
 
 //Sending event and data handling
@@ -58,7 +58,7 @@
     NSString *eventName;
     
     @private
-    NSMutableArray *handlers;
+    NSMutableSet *handlers;
 }
 
 //Creation

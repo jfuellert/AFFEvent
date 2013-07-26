@@ -31,29 +31,4 @@
 #define __bridge_transfer
 #endif
 
-//  Weak reference support
-
-#import <Availability.h>
-#if !__has_feature(objc_arc_weak)
-#undef ah_weak
-#define ah_weak unsafe_unretained
-#undef __ah_weak
-#define __ah_weak __unsafe_unretained
-#endif
-
-//  Weak delegate support
-
-#import <Availability.h>
-#undef ah_weak_delegate
-#undef __ah_weak_delegate
-#if __has_feature(objc_arc_weak) && \
-(!(defined __MAC_OS_X_VERSION_MIN_REQUIRED) || \
-__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_8)
-#define ah_weak_delegate weak
-#define __ah_weak_delegate __weak
-#else
-#define ah_weak_delegate unsafe_unretained
-#define __ah_weak_delegate __unsafe_unretained
-#endif
-
 //  ARC Helper ends

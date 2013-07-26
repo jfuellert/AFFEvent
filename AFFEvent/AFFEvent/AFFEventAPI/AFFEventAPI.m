@@ -30,6 +30,8 @@
 #import "AFFEventAPI.h"
 #import "ARCHelper.h"
 
+static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
+
 @implementation AFFEventAPI
 
 /*
@@ -57,7 +59,7 @@
 - (id<AFFEventAPI>)addHandler:(AFFEventHandler *)handler
 {
     if(!handlers)
-        handlers = [NSMutableArray new];
+        handlers = [NSMutableSet new];
     
     target = handler->observer;
     handler->sender = sender;
@@ -70,7 +72,7 @@
 - (id<AFFEventAPI>)addHandlerOneTime:(AFFEventHandler *)handler
 {
     if(!handlers)
-        handlers = [NSMutableArray new];
+        handlers = [NSMutableSet new];
     
     target = handler->observer;
     handler.isOneTimeHandler = TRUE;
@@ -86,8 +88,10 @@
  */
 - (void)removeHandlers:(NSMutableArray *)handlerSet
 {
-    for(AFFEventHandler *handler in handlerSet)
-        [self removeHandler:handler];
+    dispatch_async(dispatch_queue_create(kAFFEventCleanupQueue, NULL), ^{
+        for(id handler in handlerSet)
+            [handlers removeObject:handler];
+    });
 }
 
 - (void)removeHandler:(AFFEventHandler *)handler
@@ -100,9 +104,9 @@
     [handlers removeAllObjects];
 }
 
-- (void)removeAllHandlers:(id)observer
-{
-    NSMutableArray *removeableHandlers = [NSMutableArray new];
+- (void)removeAllHandlersForTarget:(id)observer
+{    
+    NSMutableSet *removeableHandlers = [NSMutableSet new];
     
     for(AFFEventHandler *handler in handlers)
     {
@@ -110,7 +114,10 @@
             [removeableHandlers addObject:handler];
     }
     
-    [handlers removeObjectsInArray:removeableHandlers];
+    dispatch_async(dispatch_queue_create(kAFFEventCleanupQueue, NULL), ^{
+        for(id handler in removeableHandlers)
+            [handlers removeObject:handler];
+    });
         
     [removeableHandlers ah_release];
     removeableHandlers = nil;
@@ -125,10 +132,10 @@
 }
 
 - (void)send:(id)data
-{
+{    
     AFFEvent *event = [AFFEvent eventWithSender:sender andData:data andEventName:eventName];
-    NSMutableArray *oneTimeHandlers = [NSMutableArray new];
-    NSMutableArray *handlersCopy = [[NSMutableArray alloc] initWithArray:handlers];
+    NSMutableSet *oneTimeHandlers = [NSMutableSet new];
+    NSMutableSet *handlersCopy = [[NSMutableSet alloc] initWithSet:handlers];
         
     for(AFFEventHandler *handler in handlersCopy)
     {
@@ -140,7 +147,10 @@
         }
     }
     
-    [handlers removeObjectsInArray:oneTimeHandlers];
+    dispatch_async(dispatch_queue_create(kAFFEventCleanupQueue, NULL), ^{
+        for(id object in oneTimeHandlers)
+            [handlers removeObject:object];
+    });
     
     [handlersCopy ah_release];
     handlersCopy = nil;
