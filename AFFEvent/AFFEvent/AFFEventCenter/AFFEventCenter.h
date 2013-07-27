@@ -40,23 +40,20 @@ $eventLevel (AFFEventAPI *)$eventName
 #define AFFEventSynthesize( $eventLevel, $eventName )                                               \
 $eventLevel (AFFEventAPI *)$eventName                                                               \
 {                                                                                                   \
-    return [[AFFEventSystemHandler eventSystem] eventForEventName:#$eventName fromSender:self];    \
+    return affEventForEventName(@#$eventName, self);    \
 }
 
 #define AFFRemoveAllEvents()                                                                        \
-    [[AFFEventSystemHandler eventSystem] removeEventsFromSenderHash:[(NSObject *)self hash]]
+    affRemoveAllEventsFromSenderHash([(NSObject *)self hash])
 
 #define AFFRemoveEvent( $eventName )                                                                \
-    [[AFFEventSystemHandler eventSystem] removeEventNamed:#$eventName fromSenderHash:[(NSObject *)self hash]];
+    affRemoveEventNamed(@#$eventName, [(NSObject *)self hash])
 
 #define AFFHandler( $selector )                                                                     \
-    [AFFEventHandler handlerWithSender:nil andObserver:self                                         \
-    andSelector:$selector andEventName:nil andArgs:nil]
+    affCreateHandlerWithSender(nil, self, $selector, nil, nil)
 
 #define AFFHandlerWithArgs( $selector, ... )                                                        \
-    [AFFEventHandler handlerWithSender:nil andObserver:self                                         \
-    andSelector:$selector andEventName:nil andArgs:                                                 \
-    [NSArray arrayWithObjects:__VA_ARGS__,nil]]
+    affCreateHandlerWithSender(nil, self, $selector, nil, [NSArray arrayWithObjects:__VA_ARGS__,nil])
 
 #define AFFEvents()                                                                                 \
-    [[AFFEventSystemHandler eventSystem] eventsFromSenderHash:[(NSObject *)self hash]]
+    affEventsFromSenderHash([(NSObject *)self hash])

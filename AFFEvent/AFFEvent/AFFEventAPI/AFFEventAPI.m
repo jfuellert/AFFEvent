@@ -35,14 +35,27 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
 @implementation AFFEventAPI
 
 /*
- * Constructor
+ * Queue
  */
-+ (AFFEventAPI *)eventWithSender:(id)lsender andEventName:(const char *)leventName
+dispatch_queue_t affDispatchQueue(void)
 {
-    return [[[self alloc] initWithSender:lsender andEventName:leventName] ah_autorelease];
+    static dispatch_queue_t affDispatchQueue = nil;
+    
+    if(!affDispatchQueue)
+        affDispatchQueue = dispatch_queue_create(kAFFEventCleanupQueue, NULL);    
+    
+    return affDispatchQueue;
 }
 
-- (AFFEventAPI *)initWithSender:(id)lsender andEventName:(const char *)leventName
+/*
+ * Constructor
+ */
+AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
+{
+    return [[[AFFEventAPI alloc] initWithSender:lsender andEventName:leventName] ah_autorelease];
+}
+
+- (AFFEventAPI *)initWithSender:(id)lsender andEventName:(NSString *)leventName
 {
     self = [super init];
     if(self)
@@ -63,7 +76,7 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
     
     target = handler->observer;
     handler->sender = sender;
-    handler->eventNameWithHash = createEventName(eventName, [(NSObject *)sender hash]);
+    handler.eventNameWithHash = affCreateEventName(eventName, [(NSObject *)sender hash]);
     [handlers addObject:handler];
 
     return self;
@@ -77,7 +90,7 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
     target = handler->observer;
     handler.isOneTimeHandler = TRUE;
     handler->sender = sender;
-    handler->eventNameWithHash = createEventName(eventName, [(NSObject *)sender hash]);
+    handler.eventNameWithHash = affCreateEventName(eventName, [(NSObject *)sender hash]);
     [handlers addObject:handler];
     
     return self;
@@ -88,7 +101,7 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
  */
 - (void)removeHandlers:(NSMutableArray *)handlerSet
 {
-    dispatch_async(dispatch_queue_create(kAFFEventCleanupQueue, NULL), ^{
+    dispatch_async(affDispatchQueue(), ^{
         for(id handler in handlerSet)
             [handlers removeObject:handler];
     });
@@ -114,7 +127,7 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
             [removeableHandlers addObject:handler];
     }
     
-    dispatch_async(dispatch_queue_create(kAFFEventCleanupQueue, NULL), ^{
+    dispatch_async(affDispatchQueue(), ^{
         for(id handler in removeableHandlers)
             [handlers removeObject:handler];
     });
@@ -133,16 +146,13 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
 
 - (void)send:(id)data
 {    
-    AFFEvent *event = [AFFEvent eventWithSender:sender andData:data andEventName:eventName];
+    AFFEvent *event = affEventObjectWithSender(sender, data, eventName);
     NSMutableSet *oneTimeHandlers = [NSMutableSet new];
     NSMutableSet *handlersCopy = [[NSMutableSet alloc] initWithSet:handlers];
         
     for(AFFEventHandler *handler in handlersCopy)
     {
-        const char *handlerString = handler->eventNameWithHash;
-        const char *eventNameString = createEventName(eventName, [(NSObject *)sender hash]);
-        int result = strcmp(handlerString, eventNameString);
-        if(result == 0)
+        if([handler.eventNameWithHash isEqualToString:affCreateEventName(eventName, [(NSObject *)sender hash])])
         {
             [handler invokeWithEvent:event];
             if(handler.isOneTimeHandler)
@@ -150,7 +160,7 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
         }
     }
     
-    dispatch_async(dispatch_queue_create(kAFFEventCleanupQueue, NULL), ^{
+    dispatch_async(affDispatchQueue(), ^{
         for(id object in oneTimeHandlers)
             [handlers removeObject:object];
     });

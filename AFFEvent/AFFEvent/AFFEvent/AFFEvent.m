@@ -33,28 +33,23 @@
 @implementation AFFEvent
 @synthesize sender = _sender;
 @synthesize data = _data;
+@synthesize eventName = _eventName;
 
-+ (id)eventWithSender:(id)lsender andData:(id)ldata andEventName:(const char *)leventName
+id affEventObjectWithSender(id lsender, id ldata, NSString *leventName)
 {
-    return [[[self alloc] initWithSender:lsender andData:ldata andEventName:leventName] ah_autorelease];
+    return [[[AFFEvent alloc] initWithSender:lsender andData:ldata andEventName:leventName] ah_autorelease];
 }
 
-- (id)initWithSender:(id)lsender andData:(id)ldata andEventName:(const char *)leventName
+- (id)initWithSender:(id)lsender andData:(id)ldata andEventName:(NSString *)leventName
 {
     self = [super init];
     if(self)
     {
         _sender = lsender;
         _data = ldata;
-        eventName = leventName;
+        _eventName = leventName;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    eventName = nil;
-    [super ah_dealloc];
 }
 
 @end

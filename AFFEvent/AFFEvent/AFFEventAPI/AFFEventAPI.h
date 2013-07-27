@@ -55,14 +55,13 @@
     @public
     id sender;
     id target;
-    const char *eventName;
+    NSString *eventName;
     
     @private
     NSMutableSet *handlers;
 }
 
 //Creation
-+ (AFFEventAPI *)eventWithSender:(id)lsender andEventName:(const char *)leventName;
-- (AFFEventAPI *)initWithSender:(id)lsender andEventName:(const char *)leventName;
+AFFEventAPI *affEventWithSender(id lsender, NSString *leventName);
 
 @end

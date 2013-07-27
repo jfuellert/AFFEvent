@@ -30,15 +30,11 @@
 #import <Foundation/Foundation.h>
 
 @interface AFFEvent : NSObject
-{
-    @public
-    const char *eventName;
-}
 
 @property (nonatomic, readonly) id sender;
 @property (nonatomic, readonly) id data;
+@property (nonatomic, readonly) NSString *eventName;
 
-+ (id)eventWithSender:(id)lsender andData:(id)ldata andEventName:(const char *)leventName;
-- (id)initWithSender:(id)lsender andData:(id)ldata andEventName:(const char *)leventName;
+id affEventObjectWithSender(id lsender, id ldata, NSString *leventName);
 
 @end

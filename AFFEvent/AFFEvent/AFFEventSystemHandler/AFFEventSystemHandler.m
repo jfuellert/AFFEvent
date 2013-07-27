@@ -26,105 +26,69 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
-//  ****************************************************************
-//
-//  The 'eventDictionary' object holds any custom events in the application.
-//  The 'eventDictionary' object has two tiers of objects. The first tier contains a sender hash key.
-//  The 'eventDictionary' object's sender key then contains a dictionary of AFFEventAPI objects with
-//  associated event names for keys.
-//
-//  eventDictionary -> ('NSDictionary' for key 'senderHash')
-//      dictionary -> ('AFFEventAPI' for key 'eventName')
-//
 
 #import "AFFEventAPI.h"
 #import "AFFEventSystemHandler.h"
 #import "ARCHelper.h"
-#import <objc/runtime.h>
 
 @implementation AFFEventSystemHandler
 
-+ (AFFEventSystemHandler *)eventSystem
+CFMutableDictionaryRef eventDictionary(void)
 {
-    static dispatch_once_t pred;
-    static AFFEventSystemHandler *_singletonInstance = nil;
+    static CFMutableDictionaryRef eventDictionary = nil;
     
-    dispatch_once(&pred, ^{
-        _singletonInstance = [AFFEventSystemHandler new];
-    });
+    if(!eventDictionary)
+        eventDictionary = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
     
-	return _singletonInstance;
-}
-
-- (id)init
-{
-    self = [super init];
-    if(self)
-    {
-        eventDictionary = [NSMutableDictionary new];
-    }
-    return self;
+    return eventDictionary;
 }
 
 /*
  * AFFEventAPI retrieval
  */
-- (AFFEventAPI *)eventForEventName:(const char *)eventName fromSender:(id)sender
+AFFEventAPI *affEventForEventName(NSString *eventName, id sender)
 {
-    const char *senderHashKey = createEventName(eventName, [(NSObject *)sender hash]);
-    
+    NSString *senderHashKey = [NSString stringWithFormat:@"%d", [(NSObject *)sender hash]];
     AFFEventAPI *apiObject = nil;
-    NSMutableDictionary *senderDictionary = nil;
     
     //Create sender APIEvent object dictionary and / or objects if needed
-    senderDictionary = (NSMutableDictionary *)[eventDictionary objectForKey:[NSString stringWithUTF8String:eventName]];
+    CFMutableDictionaryRef senderDictionary = (CFMutableDictionaryRef) CFDictionaryGetValue(eventDictionary(), (__bridge void *)senderHashKey);
     
     if(!senderDictionary)
     {
+        //Create a blank even
+        apiObject = [affEventWithSender(sender, eventName) ah_retain];
+        
         //Create sender dictionary with event if no sender dictionary is found
-        apiObject = [[AFFEventAPI alloc] initWithSender:sender andEventName:eventName];
+        CFMutableDictionaryRef newDictionary = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        CFDictionarySetValue(newDictionary, (__bridge void *)eventName, (__bridge void *)apiObject);
         
-        NSMutableDictionary *newDictionary = [NSMutableDictionary dictionary];
-        [newDictionary setObject:apiObject forKey:[NSString stringWithUTF8String:eventName]];
-        
-        [eventDictionary setObject:newDictionary forKey:[NSString stringWithUTF8String:eventName]];
+        //Add sub dictionary to master dictionary
+        CFDictionarySetValue(eventDictionary(), (__bridge void *)senderHashKey, (__bridge void *)newDictionary);
         
     } else
     {
-        apiObject = [(AFFEventAPI *)[senderDictionary objectForKey:[NSString stringWithUTF8String:eventName]] ah_retain];
+        apiObject = [(AFFEventAPI *) CFDictionaryGetValue(senderDictionary, (__bridge void *)eventName) ah_retain];
         
         if(!apiObject)
         {
             //Create event object and add it to the sender dictionary if none already exists
-            apiObject = [[AFFEventAPI alloc] initWithSender:sender andEventName:eventName];
-            [senderDictionary setObject:apiObject forKey:[NSString stringWithUTF8String:eventName]];
+            apiObject = [affEventWithSender(sender, eventName) ah_retain];
+            CFDictionarySetValue(senderDictionary, (__bridge void *)eventName, (__bridge void *)apiObject);
         }
     }
-    
-//    AFFEventAPI *apiObject = objc_getAssociatedObject(sender, &senderHashKey);
-//    
-//    
-//    if(!apiObject)
-//    {
-//        //Create event object and add it to the sender dictionary if none already exists
-//        apiObject = [[AFFEventAPI alloc] initWithSender:sender andEventName:eventName];
-//        
-//        objc_setAssociatedObject(sender, &senderHashKey, apiObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//        
-//        [apiObject ah_release];
-//    }
     
     return [apiObject ah_autorelease];
 }
 
-- (NSArray *)eventsFromSenderHash:(NSUInteger)senderHash
+NSArray *affEventsFromSenderHash(NSUInteger senderHash)
 {
     NSMutableArray *returnArray = [NSMutableArray new];
-    NSMutableDictionary *dictionary = nil;
     
-    dictionary = (NSMutableDictionary *)[eventDictionary objectForKey:[NSString stringWithFormat:@"%d", senderHash]];
+    NSString *senderHashKey = [NSString stringWithFormat:@"%d", senderHash];
+    CFDictionaryRef dictionary = (CFMutableDictionaryRef) CFDictionaryGetValue(eventDictionary(), (__bridge void *)senderHashKey);
     
-    for(AFFEventAPI *apiObject in [dictionary allValues])
+    for(AFFEventAPI *apiObject in [(__bridge NSDictionary *)dictionary allValues])
         [returnArray addObject:apiObject];
     
     return [returnArray ah_autorelease];
@@ -133,47 +97,25 @@
 /*
  * AFFEventAPI deletion
  */
-- (void)removeEventNamed:(const char *)eventName fromSenderHash:(NSUInteger)senderHash
+void affRemoveEventNamed(NSString *eventName, NSUInteger senderHash)
 {
-//    void objc_removeAssociatedObjects(id object)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    NSMutableDictionary *dictionary = (NSMutableDictionary *)[eventDictionary objectForKey:[NSString stringWithFormat:@"%d", senderHash]];
-    [dictionary removeObjectForKey:[NSString stringWithUTF8String:eventName]];
+    NSString *senderHashKey = [NSString stringWithFormat:@"%d", senderHash];
+    CFMutableDictionaryRef dictionary = (CFMutableDictionaryRef) CFDictionaryGetValue(eventDictionary(), (__bridge void *)senderHashKey);
+    CFDictionaryRemoveValue(dictionary, (__bridge void *)eventName);
 }
 
-- (void)removeEventsFromSenderHash:(NSUInteger)senderHash;
+void affRemoveAllEventsFromSenderHash(NSUInteger senderHash)
 {
-//    objc_removeAssociatedObjects(<#id object#>)
-    [eventDictionary removeObjectForKey:[NSString stringWithFormat:@"%d", senderHash]];
+    NSString *senderHashKey = [NSString stringWithFormat:@"%d", senderHash];
+    CFDictionaryRemoveValue(eventDictionary(), (__bridge void *)senderHashKey);
 }
 
 /*
  * AFFEvent name creation
  */
-const char *createEventName (const char *eventName, NSUInteger hash)
-{    
-    //Hash string
-    char hashString [40];
-    sprintf(hashString, "%d", hash);
-    
-    //Concat
-    char *eventWithHash = malloc(strlen(eventName) + strlen(hashString));
-    
-    if(!eventWithHash)
-        return NULL;
-    
-    strcpy(eventWithHash, eventName);
-    strcat(eventWithHash, hashString);
-    
-    return eventWithHash;
+NSString *affCreateEventName(NSString *eventName, NSUInteger hash)
+{
+    return [NSString stringWithFormat:@"%@%ud", eventName, hash];
 }
 
 @end

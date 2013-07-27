@@ -32,19 +32,14 @@
 @class AFFEventAPI;
 
 @interface AFFEventSystemHandler : NSObject
-{
-    @private
-    NSMutableDictionary *eventDictionary;
-}
 
-+ (AFFEventSystemHandler *)eventSystem;
+AFFEventAPI *affEventForEventName(NSString *eventName, id sender);
 
-- (AFFEventAPI *)eventForEventName:(const char *)eventName fromSender:(id)sender;
-- (NSArray *)eventsFromSenderHash:(NSUInteger)senderHash;
+NSArray *affEventsFromSenderHash(NSUInteger senderHash);
 
-- (void)removeEventNamed:(const char *)eventName fromSenderHash:(NSUInteger)senderHash;
-- (void)removeEventsFromSenderHash:(NSUInteger)senderHash;
+void affRemoveEventNamed(NSString *eventName, NSUInteger senderHash);
+void affRemoveAllEventsFromSenderHash(NSUInteger senderHash);
 
-const char *createEventName (const char *eventName, NSUInteger hash);
+NSString *affCreateEventName(NSString *eventName, NSUInteger hash);
 
 @end

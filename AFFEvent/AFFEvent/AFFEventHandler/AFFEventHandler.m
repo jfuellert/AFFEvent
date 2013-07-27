@@ -34,21 +34,23 @@
 
 @implementation AFFEventHandler
 @synthesize isOneTimeHandler;
+@synthesize eventNameWithHash = _eventNameWithHash;
 
-+ (id)handlerWithSender:(id)lsender andObserver:(id)lobserver andSelector:(SEL)lselector andEventName:(const char *)leventName andArgs:(NSArray *)largs
+id affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString *leventName, NSArray *largs)
 {
-    return [[[self alloc] initWithSender:lsender andObserver:lobserver andSelector:lselector andEventName:leventName andArgs:largs] ah_autorelease];
+    return [[[AFFEventHandler alloc] initWithSender:lsender andObserver:lobserver andSelector:lselector andEventName:leventName andArgs:largs] ah_autorelease];
 }
 
-- (id)initWithSender:(NSObject *)lsender andObserver:(NSObject *)lobserver andSelector:(SEL)lselector andEventName:(const char *)leventName andArgs:(NSArray *)largs
+- (id)initWithSender:(NSObject *)lsender andObserver:(NSObject *)lobserver andSelector:(SEL)lselector andEventName:(NSString *)leventName andArgs:(NSArray *)largs
 {
     self = [super init];
     if(self)
-    {
+    {        
         sender = lsender;
         observer = lobserver;
         selector = lselector;
         args = [[NSMutableArray alloc] initWithArray:largs];
+                
         self.isOneTimeHandler = FALSE;
     }
     return self;
@@ -178,7 +180,7 @@
     sender = nil;
     observer = nil;
     selector = nil;
-    eventNameWithHash = nil;
+    _eventNameWithHash = nil;
     [args ah_release];
     args = nil;
     
