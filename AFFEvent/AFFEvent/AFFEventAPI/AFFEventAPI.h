@@ -37,11 +37,15 @@
 - (id<AFFEventAPI>)addHandler:(AFFEventHandler *)handler;
 - (id<AFFEventAPI>)addHandlerOneTime:(AFFEventHandler *)handler;
 
+//Handler methods
+- (BOOL)hasHandler:(AFFEventHandler *)handler;
+- (NSSet *)handlers;
+- (NSSet *)handlersForObserver:(id)observer;
+
 //Handler removal handling
 - (void)removeHandler:(AFFEventHandler *)handler;
-- (BOOL)hasHandler:(AFFEventHandler *)handler;
 - (void)removeHandlers:(NSSet *)handlerSet;
-- (void)removeAllHandlersForTarget:(id)observer;
+- (void)removeAllHandlersForObserver:(id)observer;
 - (void)removeAllHandlers;
 
 //Sending event and data handling
@@ -56,9 +60,6 @@
     id sender;
     id target;
     NSString *eventName;
-    
-    @private
-    NSMutableSet *handlers;
 }
 
 //Creation

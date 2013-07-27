@@ -32,6 +32,13 @@
 
 static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
 
+@interface AFFEventAPI ()
+{
+    NSMutableSet *_handlers;
+}
+
+@end
+
 @implementation AFFEventAPI
 
 /*
@@ -73,57 +80,90 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
  */
 - (id<AFFEventAPI>)addHandler:(AFFEventHandler *)handler
 {
-    if(!handlers)
-        handlers = [NSMutableSet new];
+    if(!_handlers)
+        _handlers = [NSMutableSet new];
     
     target = handler->observer;
     handler->sender = sender;
     handler.eventNameWithHash = affCreateEventName(eventName, [(NSObject *)sender hash]);
-    [handlers addObject:handler];
+    [_handlers addObject:handler];
 
     return self;
 }
 
 - (id<AFFEventAPI>)addHandlerOneTime:(AFFEventHandler *)handler
 {
-    if(!handlers)
-        handlers = [NSMutableSet new];
+    if(!_handlers)
+        _handlers = [NSMutableSet new];
     
     target = handler->observer;
     handler.isOneTimeHandler = TRUE;
     handler->sender = sender;
     handler.eventNameWithHash = affCreateEventName(eventName, [(NSObject *)sender hash]);
-    [handlers addObject:handler];
+    [_handlers addObject:handler];
     
     return self;
 }
 
 /*
- * Remove handlers
+ * Handler methods
  */
-- (void)removeHandlers:(NSMutableArray *)handlerSet
+- (BOOL)hasHandler:(AFFEventHandler *)handler
 {
-    dispatch_async(affAPIDispatchQueue(), ^{
-        for(id handler in handlerSet)
-            [handlers removeObject:handler];
-    });
+    for(AFFEventHandler *__handler in _handlers)
+    {
+        if([NSStringFromSelector(__handler->selector) isEqualToString:NSStringFromSelector(handler->selector)])
+            return TRUE;
+    }
+    return FALSE;
 }
 
+- (NSSet *)handlers
+{
+    return _handlers;
+}
+
+- (NSSet *)handlersForObserver:(id)observer
+{
+    NSMutableSet *returnHandlers = [NSMutableSet new];
+    for(AFFEventHandler *__handler in _handlers)
+    {
+        if([__handler->observer isEqual:observer])
+            [returnHandlers addObject:__handler];
+    }
+    return returnHandlers;
+}
+
+/*
+ * Remove handlers
+ */
 - (void)removeHandler:(AFFEventHandler *)handler
 {
-    [handlers removeObject:handler];
+    for(AFFEventHandler *__handler in _handlers)
+    {
+        if([__handler->observer isEqual:handler->observer] && [NSStringFromSelector(__handler->selector) isEqualToString:NSStringFromSelector(handler->selector)])
+            [_handlers removeObject:__handler];
+    }
+}
+
+- (void)removeHandlers:(NSSet *)handlerSet
+{
+    dispatch_async(affAPIDispatchQueue(), ^{
+        for(AFFEventHandler *handler in handlerSet)
+            [self removeHandler:handler];
+    });
 }
 
 - (void)removeAllHandlers
 {
-    [handlers removeAllObjects];
+    [_handlers removeAllObjects];
 }
 
-- (void)removeAllHandlersForTarget:(id)observer
+- (void)removeAllHandlersForObserver:(id)observer
 {    
     NSMutableSet *removeableHandlers = [NSMutableSet new];
     
-    for(AFFEventHandler *handler in handlers)
+    for(AFFEventHandler *handler in _handlers)
     {
         if(handler->observer == observer)
             [removeableHandlers addObject:handler];
@@ -131,9 +171,9 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
     
     dispatch_async(affAPIDispatchQueue(), ^{
         for(id handler in removeableHandlers)
-            [handlers removeObject:handler];
+            [_handlers removeObject:handler];
     });
-        
+    
     [removeableHandlers ah_release];
     removeableHandlers = nil;
 }
@@ -150,7 +190,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 {    
     AFFEvent *event = affEventObjectWithSender(sender, data, eventName);
     NSMutableSet *oneTimeHandlers = [NSMutableSet new];
-    NSMutableSet *handlersCopy = [[NSMutableSet alloc] initWithSet:handlers];
+    NSMutableSet *handlersCopy = [[NSMutableSet alloc] initWithSet:_handlers];
         
     for(AFFEventHandler *handler in handlersCopy)
     {
@@ -164,7 +204,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
     
     dispatch_async(affAPIDispatchQueue(), ^{
         for(id object in oneTimeHandlers)
-            [handlers removeObject:object];
+            [_handlers removeObject:object];
     });
     
     [handlersCopy ah_release];
@@ -174,26 +214,13 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
     oneTimeHandlers = nil;
 }
 
-/*
- * Has handler
- */
-- (BOOL)hasHandler:(AFFEventHandler *)handler
-{
-    for(AFFEventHandler *_handler in handlers)
-    {
-        if([NSStringFromSelector(_handler->selector) isEqualToString:NSStringFromSelector(handler->selector)])
-            return TRUE;
-    }
-    return FALSE;
-}
-
 - (void)dealloc
 {
     sender = nil;
     target = nil;
     eventName = nil;
-    [handlers ah_release];
-    handlers = nil;
+    [_handlers ah_release];
+    _handlers = nil;
     
     [super ah_dealloc];
 }

@@ -78,14 +78,12 @@ AFFEventAPI *affEventForEventName(NSString *eventName, id sender)
         //Create a blank even
         apiObject = [affEventWithSender(sender, eventName) ah_retain];
         
-        dispatch_async(affSystemDispatchQueue(), ^{
-            //Create sender dictionary with event if no sender dictionary is found
-            CFMutableDictionaryRef newDictionary = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-            CFDictionarySetValue(newDictionary, (__bridge void *)eventName, (__bridge void *)apiObject);
-            
-            //Add sub dictionary to master dictionary
-            CFDictionarySetValue(eventDictionary(), (__bridge void *)senderHashKey, (__bridge void *)newDictionary);
-        });        
+        //Create sender dictionary with event if no sender dictionary is found
+        CFMutableDictionaryRef newDictionary = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        CFDictionarySetValue(newDictionary, (__bridge void *)eventName, (__bridge void *)apiObject);
+        
+        //Add sub dictionary to master dictionary
+        CFDictionarySetValue(eventDictionary(), (__bridge void *)senderHashKey, (__bridge void *)newDictionary);
     } else
     {
         apiObject = [(AFFEventAPI *) CFDictionaryGetValue(senderDictionary, (__bridge void *)eventName) ah_retain];
@@ -95,9 +93,7 @@ AFFEventAPI *affEventForEventName(NSString *eventName, id sender)
             //Create event object and add it to the sender dictionary if none already exists
             apiObject = [affEventWithSender(sender, eventName) ah_retain];
             
-            dispatch_async(affSystemDispatchQueue(), ^{
-                CFDictionarySetValue(senderDictionary, (__bridge void *)eventName, (__bridge void *)apiObject);
-            });
+            CFDictionarySetValue(senderDictionary, (__bridge void *)eventName, (__bridge void *)apiObject);
         }
     }
     
