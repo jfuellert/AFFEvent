@@ -30,7 +30,6 @@
 		76545328179C4289003F40B3 /* ARCHelper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452F4179C4130003F40B3 /* ARCHelper.h */; };
 		76545329179C42C1003F40B3 /* libAFFEvent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 765452D4179C40DB003F40B3 /* libAFFEvent.a */; };
 		76545395179C6B8B003F40B3 /* TestButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 76545394179C6B8B003F40B3 /* TestButton.m */; };
-		769CE0D917A34F0200AFDA68 /* Benchmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 769CE0D817A34F0200AFDA68 /* Benchmark.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -81,8 +80,6 @@
 		76545316179C415D003F40B3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		76545393179C6B8B003F40B3 /* TestButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestButton.h; path = TestButton/TestButton.h; sourceTree = "<group>"; };
 		76545394179C6B8B003F40B3 /* TestButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestButton.m; path = TestButton/TestButton.m; sourceTree = "<group>"; };
-		769CE0D717A34F0200AFDA68 /* Benchmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Benchmark.h; sourceTree = "<group>"; };
-		769CE0D817A34F0200AFDA68 /* Benchmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Benchmark.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,8 +217,6 @@
 				76545315179C415D003F40B3 /* ViewController.h */,
 				76545316179C415D003F40B3 /* ViewController.m */,
 				76545304179C415D003F40B3 /* Supporting Files */,
-				769CE0D717A34F0200AFDA68 /* Benchmark.h */,
-				769CE0D817A34F0200AFDA68 /* Benchmark.m */,
 			);
 			path = TestHarness;
 			sourceTree = "<group>";
@@ -347,7 +342,6 @@
 				7654530E179C415D003F40B3 /* AppDelegate.m in Sources */,
 				76545317179C415D003F40B3 /* ViewController.m in Sources */,
 				76545395179C6B8B003F40B3 /* TestButton.m in Sources */,
-				769CE0D917A34F0200AFDA68 /* Benchmark.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

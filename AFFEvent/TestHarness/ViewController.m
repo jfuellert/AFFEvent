@@ -17,6 +17,8 @@
     [self createTextLabel];
     [self createOutputLabel];
     [self createButtons];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTestButtonPressedNotification:) name:@"onPress" object:nil];
 }
 
 - (void)createTextLabel
@@ -62,21 +64,15 @@
 //Actions
 - (void)onButtonOnePressed:(AFFEvent *)event withSomething:(NSNumber *)something andSomethingElse:(NSNumber *)somethingElse
 {
-//    NSLog(@"Sender : %@", event.sender);
-//    NSLog(@"Data : %@", event.data);
-//    NSLog(@"Event name : %@", event.eventName);
-    
-    
-    BENCHMARK_FINISH(@"AFFEvent");
-    BENCHMARK_REPORT_AVERAGE(@"AFFEvent");
+    NSLog(@"Sender : %@", event.sender);
+    NSLog(@"Data : %@", event.data);
+    NSLog(@"Event name : %@", event.eventName);
     
     outputLabel.text = [NSString stringWithFormat:@"%d", [event.data intValue]];
 }
 
 - (void)onButtonTwoPressed
 {
-    BENCHMARK_FINISH(@"AFFEvent");
-    BENCHMARK_REPORT_AVERAGE(@"AFFEvent");
     
     CGFloat hue = ( arc4random() % 256 / 256.0 ); 
     CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  

@@ -37,14 +37,16 @@ static const char *kAFFEventCleanupQueue = "AFFEventCleanupQueue";
 /*
  * Queue
  */
-dispatch_queue_t affDispatchQueue(void)
+dispatch_queue_t affAPIDispatchQueue(void)
 {
-    static dispatch_queue_t affDispatchQueue = nil;
+    static dispatch_once_t affAPIDispatchQueuePred;
+    static dispatch_queue_t affAPIDispatchQueue = nil;
     
-    if(!affDispatchQueue)
-        affDispatchQueue = dispatch_queue_create(kAFFEventCleanupQueue, NULL);    
+    dispatch_once(&affAPIDispatchQueuePred, ^{
+        affAPIDispatchQueue = dispatch_queue_create(kAFFEventCleanupQueue, NULL);
+    });
     
-    return affDispatchQueue;
+    return affAPIDispatchQueue;
 }
 
 /*
@@ -101,7 +103,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
  */
 - (void)removeHandlers:(NSMutableArray *)handlerSet
 {
-    dispatch_async(affDispatchQueue(), ^{
+    dispatch_async(affAPIDispatchQueue(), ^{
         for(id handler in handlerSet)
             [handlers removeObject:handler];
     });
@@ -127,7 +129,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
             [removeableHandlers addObject:handler];
     }
     
-    dispatch_async(affDispatchQueue(), ^{
+    dispatch_async(affAPIDispatchQueue(), ^{
         for(id handler in removeableHandlers)
             [handlers removeObject:handler];
     });
@@ -160,7 +162,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
         }
     }
     
-    dispatch_async(affDispatchQueue(), ^{
+    dispatch_async(affAPIDispatchQueue(), ^{
         for(id object in oneTimeHandlers)
             [handlers removeObject:object];
     });
