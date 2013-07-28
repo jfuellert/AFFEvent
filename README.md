@@ -54,7 +54,7 @@ Implementation file :
 The AFFEventAPI object is the container object for handler interactions. Here is where you can send events, check handlers, lock and unlock handlers, add handlers, and remove handlers. Events handling can be changed at any time using any of the AFFEventAPI methods. These methods can also be chained.
 
 ###Locking / Unlocking Handlers
-AFFEventAPI objects control their handler counterparts so they have the ability to add, remove, or, in this case, lock and unlock any handlers. Locking a handler means that the handler method won't be fired upon sending an event. The handler is not removed from the event handler list, so it can be used again later by unlocking it. This is especially useful in cases where you'd want to block interactions to block another, let's say a pop-up menu that blocks other elements in an interface from interacting. Here is a list of locking and unlock methods that AFFEvent provides:
+AFFEventAPI objects control their handler counterparts so they have the ability to add, remove, or, in this case, lock and unlock any handlers. Locking a handler method means that the method won't be fired upon sending an event. The handler is not removed from the event handler list so it can be used again by unlocking it. This locking and unlocking of method handlers is especially useful in cases where you'd want to temporarily block interactions; let's say a pop-up menu that blocks other elements in an interface from interacting while the pop-up is active. Here is a list of locking and unlocking methods that AFFEvent provides:
 
     - (void)lockHandler:(AFFEventHandler *)handler;
     - (void)unlockHandler:(AFFEventHandler *)handler;
