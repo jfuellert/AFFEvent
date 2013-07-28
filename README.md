@@ -3,7 +3,7 @@ AFFEvent
 AFFEvent is an alternative event system built for iOS. The event system strays away from the traditional NSNotificationCenter and delegation and instead holds an alterable event system that lets you add, remove, and modify events and / or handlers. It also allows for multiple parameter methods to be called upon an event being fired. AFFEvent still allows for default NSNotificationCenter and delegation usage. 
 
 ##Purpose
-The purpose of this software is to give developers an alternative way to handle events in iOS. It's primary goal is to minimize delegation usage in areas where it should not neccesarily be needed. By removing this need for delegation, classes have more control over events and can do unique things with them including firing an instance event of one class using a another class, using class events, or firing single time events.
+The purpose of this software is to give developers an alternative way to handle events in iOS. It's primary goal is to minimize delegation usage in areas where it should not necessarily be needed. By removing this need for delegation, classes have more control over events and can do unique things with them including firing an instance event of one class using a another class, using class events, or firing single time events.
 
 ##Support
 Earliest tested and supported build and deployment target - iOS 5.0.
@@ -34,7 +34,7 @@ Header file :
 
     //@param : $eventLevel 
     //@type : Macro
-    //@options : AFFEventClass  AFFEventInstance   
+    //@options : AFFEventClass, AFFEventInstance   
 
     //@param : $eventName 
     //@type : NSString
@@ -45,10 +45,13 @@ Implementation file :
 
     //@param : $eventLevel 
     //@type : Macro
-    //@options : AFFEventClass  AFFEventInstance   
+    //@options : AFFEventClass, AFFEventInstance   
 
     //@param : $eventName 
     //@type : NSString
+
+##AFFEventAPI
+The AFFEventAPI object is the container object for handler interactions. Here is where you can send events, check handlers, add handlers, and remove handlers. Events handling can be changed at any time using any of the AFFEventAPI methods. These methods can also be chained.
 
 ###Event Removal
 A class in which an event is created is also responsible for destroying that event in it's deallocation. This can easily be done by using AFFRemoveAllEvents() in a class's dealloc method. This will remove any event objects for that class from the AFFEventSystemHandler. To remove a specific event from a class use AFFRemoveEvent( $eventName ).
@@ -104,7 +107,7 @@ A handler with one or more other parameters must include an AFFEvent object as i
     - (void)eventHandler:(AFFEvent *)event withArg0:(id)arg0 andArg1:(id)arg1 andArg2:(id)arg2 {} 
 
 ###Event object
-The event object itself has three accessible properties:
+The AFFEvent is the object being sent, much like an NSNotification. The event object itself has three accessible properties:
 
     @property (nonatomic, readonly) id sender;
     @property (nonatomic, readonly) id data;
