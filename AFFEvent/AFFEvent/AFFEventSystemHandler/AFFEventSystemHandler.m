@@ -31,8 +31,6 @@
 #import "AFFEventSystemHandler.h"
 #import "ARCHelper.h"
 
-static const char *kAFFEventSystemHanderpQueue = "AFFEventCleanupQueue";
-
 @implementation AFFEventSystemHandler
 
 /*
@@ -44,7 +42,7 @@ dispatch_queue_t affSystemDispatchQueue(void)
     static dispatch_queue_t affSystemDispatchQueue = nil;
     
     dispatch_once(&affSystemDispatchQueuePred, ^{
-        affSystemDispatchQueue = dispatch_queue_create(kAFFEventSystemHanderpQueue, NULL);
+        affSystemDispatchQueue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     });
     
     return affSystemDispatchQueue;

@@ -10,17 +10,17 @@ Earliest tested and supported build and deployment target - iOS 5.0.
 Latest tested and supported build and deployment target - iOS 7.0.
 
 ##ARC Compatibility
-AFFramework is built from non-ARC but is ARC-compatible thanks to Nick Lockwood's ARCHelper found here https://gist.github.com/1563325.
+AFFEvent is built from non-ARC but is ARC-compatible thanks to Nick Lockwood's ARCHelper found here https://gist.github.com/1563325.
 	
 ##Installation
 Copy the AFFEvent folder and contents to your project.
 Add the current line to your <AppName>-Prefix.pch file :
-		
+	
     #import "AFFEventCenter.h"
 
 ##Event Usage
 ###About
-AFFramework events are handled through a central system, much like NSNotificationCenter. Events do not use a 'name' convention; instead they use an object's hash in combination with a unique method name from a class. You may, if needed, modify events through the global AFFEventSystemHandler class, but the recommended way to modify events would be through the event methods themselves.
+Events are handled through a central system, much like NSNotificationCenter. Events do not use a 'name' convention; instead they use an object's hash in combination with a unique method name from a class. You may, if needed, modify events through the global AFFEventSystemHandler class, but the recommended way to modify events would be through the event methods themselves.
 
 ###Event Levels
 There are two event levels available for AFFEvent. AFFEventInstance defines an instance event for it's class, only being accessible through an instance of that class. AFFEventClass defines a class event for it's class, which may be accessible from anywhere yet fired from any method type of that class.
@@ -51,7 +51,20 @@ Implementation file :
     //@type : NSString
 
 ##AFFEventAPI
-The AFFEventAPI object is the container object for handler interactions. Here is where you can send events, check handlers, add handlers, and remove handlers. Events handling can be changed at any time using any of the AFFEventAPI methods. These methods can also be chained.
+The AFFEventAPI object is the container object for handler interactions. Here is where you can send events, check handlers, lock and unlock handlers, add handlers, and remove handlers. Events handling can be changed at any time using any of the AFFEventAPI methods. These methods can also be chained.
+
+###Locking / Unlocking Handlers
+AFFEventAPI objects control their handler counterparts so they have the ability to add, remove, or, in this case, lock and unlock any handlers. Locking a handler means that the handler method won't be fired upon sending an event. The handler is not removed from the event handler list, so it can be used again later by unlocking it. This is especially useful in cases where you'd want to block interactions to block another, let's say a pop-up menu that blocks other elements in an interface from interacting. Here is a list of locking and unlock methods that AFFEvent provides:
+
+    - (void)lockHandler:(AFFEventHandler *)handler;
+    - (void)unlockHandler:(AFFEventHandler *)handler;
+    - (void)lockHandlers:(NSSet *)handlers;
+    - (void)unlockHandlers:(NSSet *)handlers;
+    - (void)lockHandlers;
+    - (void)unlockHandlers;
+    - (NSSet *)lockedHandlers;
+    - (NSSet *)unlockedHandlers;
+    - (BOOL)handlerIsLocked:(AFFEventHandler *)handler;  
 
 ###Event Removal
 A class in which an event is created is also responsible for destroying that event in it's deallocation. This can easily be done by using AFFRemoveAllEvents() in a class's dealloc method. This will remove any event objects for that class from the AFFEventSystemHandler. To remove a specific event from a class use AFFRemoveEvent( $eventName ).
@@ -154,3 +167,8 @@ Here is an example of basic usage of AFFEvents. An event is first created in the
     }
 
     @end
+
+##Changelog
+
+- July 28, 2013	: Added AFFEventAPI locks and unlocks. This will allow for more control over an event's handlers.
+- July 25, 2013 : Added performance tweaks.

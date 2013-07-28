@@ -37,16 +37,27 @@
 - (id<AFFEventAPI>)addHandler:(AFFEventHandler *)handler;
 - (id<AFFEventAPI>)addHandlerOneTime:(AFFEventHandler *)handler;
 
-//Handler methods
+//Handler check methods
 - (BOOL)hasHandler:(AFFEventHandler *)handler;
 - (NSSet *)handlers;
 - (NSSet *)handlersForObserver:(id)observer;
 
+//Handler lock methods
+- (void)lockHandler:(AFFEventHandler *)handler;
+- (void)unlockHandler:(AFFEventHandler *)handler;
+- (void)lockHandlers:(NSSet *)handlers;
+- (void)unlockHandlers:(NSSet *)handlers;
+- (void)lockHandlers;
+- (void)unlockHandlers;
+- (NSSet *)lockedHandlers;
+- (NSSet *)unlockedHandlers;
+- (BOOL)handlerIsLocked:(AFFEventHandler *)handler;
+
 //Handler removal handling
 - (void)removeHandler:(AFFEventHandler *)handler;
 - (void)removeHandlers:(NSSet *)handlerSet;
-- (void)removeAllHandlersForObserver:(id)observer;
-- (void)removeAllHandlers;
+- (void)removeHandlersForObserver:(id)observer;
+- (void)removeHandlers;
 
 //Sending event and data handling
 - (void)send;

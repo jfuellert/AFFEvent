@@ -33,7 +33,8 @@
 #include <objc/message.h>
 
 @implementation AFFEventHandler
-@synthesize isOneTimeHandler;
+@synthesize isLocked = _isLocked;
+@synthesize isOneTimeHandler = _isOneTimeHandler;
 @synthesize eventNameWithHash = _eventNameWithHash;
 
 id affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString *leventName, NSArray *largs)
@@ -50,8 +51,9 @@ id affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString
         observer = lobserver;
         selector = lselector;
         args = [[NSMutableArray alloc] initWithArray:largs];
-                
-        self.isOneTimeHandler = FALSE;
+        
+        _isLocked = FALSE;
+        _isOneTimeHandler = FALSE;
     }
     return self;
 }

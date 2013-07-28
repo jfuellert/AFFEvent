@@ -38,6 +38,7 @@
     NSMutableArray *args;
 }
 
+@property (nonatomic, assign) BOOL isLocked;
 @property (nonatomic, assign) BOOL isOneTimeHandler;
 @property (nonatomic, retain) NSString *eventNameWithHash;
 
