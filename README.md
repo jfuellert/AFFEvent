@@ -64,7 +64,7 @@ AFFEventAPI objects control their handler counterparts so they have the ability 
     - (void)unlockHandlers;
     - (NSSet *)lockedHandlers;
     - (NSSet *)unlockedHandlers;
-    - (BOOL)handlerIsLocked:(AFFEventHandler *)handler;  
+    - (BOOL)isHandlerLocked:(AFFEventHandler *)handler;  
 
 ###Event Removal
 A class in which an event is created is also responsible for destroying that event in it's deallocation. This can easily be done by using AFFRemoveAllEvents() in a class's dealloc method. This will remove any event objects for that class from the AFFEventSystemHandler. To remove a specific event from a class use AFFRemoveEvent( $eventName ).

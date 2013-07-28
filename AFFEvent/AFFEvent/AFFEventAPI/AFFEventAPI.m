@@ -223,7 +223,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
     return [unlockedHandlers ah_autorelease];
 }
 
-- (BOOL)handlerIsLocked:(AFFEventHandler *)handler
+- (BOOL)isHandlerLocked:(AFFEventHandler *)handler
 {
     for(AFFEventHandler *__handler in _handlers)
     {

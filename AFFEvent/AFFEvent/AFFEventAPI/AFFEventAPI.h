@@ -51,7 +51,7 @@
 - (void)unlockHandlers;
 - (NSSet *)lockedHandlers;
 - (NSSet *)unlockedHandlers;
-- (BOOL)handlerIsLocked:(AFFEventHandler *)handler;
+- (BOOL)isHandlerLocked:(AFFEventHandler *)handler;
 
 //Handler removal handling
 - (void)removeHandler:(AFFEventHandler *)handler;
