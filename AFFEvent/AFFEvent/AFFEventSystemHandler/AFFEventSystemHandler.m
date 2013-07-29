@@ -81,7 +81,7 @@ AFFEventAPI *affEventForEventName(NSString *eventName, id sender)
         CFDictionarySetValue(newDictionary, (__bridge void *)eventName, (__bridge void *)apiObject);
         
         //Add sub dictionary to master dictionary
-        CFDictionarySetValue(eventDictionary(), (__bridge void *)senderHashKey, (__bridge void *)newDictionary);
+        CFDictionarySetValue(eventDictionary(), (__bridge void *)senderHashKey, newDictionary);
     } else
     {
         apiObject = [(AFFEventAPI *) CFDictionaryGetValue(senderDictionary, (__bridge void *)eventName) ah_retain];

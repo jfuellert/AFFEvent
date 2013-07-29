@@ -28,3 +28,7 @@ AFFEvent/AFFEvent/AFFEventSystemHandler/.DS_Store
 *.xcuserstatej
 
 *.xcuserstate
+
+*.xcscheme
+
+*.plist
