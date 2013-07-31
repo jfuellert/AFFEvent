@@ -27,7 +27,6 @@
 		76545325179C4289003F40B3 /* AFFEventCenter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452EC179C4130003F40B3 /* AFFEventCenter.h */; };
 		76545326179C4289003F40B3 /* AFFEventHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452EE179C4130003F40B3 /* AFFEventHandler.h */; };
 		76545327179C4289003F40B3 /* AFFEventSystemHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452F1179C4130003F40B3 /* AFFEventSystemHandler.h */; };
-		76545328179C4289003F40B3 /* ARCHelper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452F4179C4130003F40B3 /* ARCHelper.h */; };
 		76545329179C42C1003F40B3 /* libAFFEvent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 765452D4179C40DB003F40B3 /* libAFFEvent.a */; };
 		76545395179C6B8B003F40B3 /* TestButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 76545394179C6B8B003F40B3 /* TestButton.m */; };
 /* End PBXBuildFile section */
@@ -44,7 +43,6 @@
 				76545325179C4289003F40B3 /* AFFEventCenter.h in CopyFiles */,
 				76545326179C4289003F40B3 /* AFFEventHandler.h in CopyFiles */,
 				76545327179C4289003F40B3 /* AFFEventSystemHandler.h in CopyFiles */,
-				76545328179C4289003F40B3 /* ARCHelper.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +61,6 @@
 		765452EF179C4130003F40B3 /* AFFEventHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFFEventHandler.m; sourceTree = "<group>"; };
 		765452F1179C4130003F40B3 /* AFFEventSystemHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFFEventSystemHandler.h; sourceTree = "<group>"; };
 		765452F2179C4130003F40B3 /* AFFEventSystemHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFFEventSystemHandler.m; sourceTree = "<group>"; };
-		765452F4179C4130003F40B3 /* ARCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCHelper.h; sourceTree = "<group>"; };
 		765452FD179C415D003F40B3 /* TestHarness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestHarness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		765452FE179C415D003F40B3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		76545301179C415D003F40B3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -142,7 +139,6 @@
 				765452EB179C4130003F40B3 /* AFFEventCenter */,
 				765452ED179C4130003F40B3 /* AFFEventHandler */,
 				765452F0179C4130003F40B3 /* AFFEventSystemHandler */,
-				765452F3179C4130003F40B3 /* ARCHelper */,
 				765452DA179C40DB003F40B3 /* Supporting Files */,
 			);
 			path = AFFEvent;
@@ -198,14 +194,6 @@
 				765452F2179C4130003F40B3 /* AFFEventSystemHandler.m */,
 			);
 			path = AFFEventSystemHandler;
-			sourceTree = "<group>";
-		};
-		765452F3179C4130003F40B3 /* ARCHelper */ = {
-			isa = PBXGroup;
-			children = (
-				765452F4179C4130003F40B3 /* ARCHelper.h */,
-			);
-			path = ARCHelper;
 			sourceTree = "<group>";
 		};
 		76545303179C415D003F40B3 /* TestHarness */ = {

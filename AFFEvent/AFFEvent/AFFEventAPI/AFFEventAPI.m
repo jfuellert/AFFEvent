@@ -28,7 +28,6 @@
 //
 
 #import "AFFEventAPI.h"
-#import "ARCHelper.h"
 
 @interface AFFEventAPI ()
 {
@@ -59,7 +58,7 @@ dispatch_queue_t affAPIDispatchQueue(void)
  */
 AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 {
-    return [[[AFFEventAPI alloc] initWithSender:lsender andEventName:leventName] ah_autorelease];
+    return [[[AFFEventAPI alloc] initWithSender:lsender andEventName:leventName] autorelease];
 }
 
 - (AFFEventAPI *)initWithSender:(id)lsender andEventName:(NSString *)leventName
@@ -208,7 +207,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
         if(__handler.isLocked)
             [lockedHandlers addObject:__handler];
     }
-    return [lockedHandlers ah_autorelease];
+    return [lockedHandlers autorelease];
 }
 
 - (NSSet *)unlockedHandlers
@@ -220,7 +219,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
         if(!__handler.isLocked)
             [unlockedHandlers addObject:__handler];
     }
-    return [unlockedHandlers ah_autorelease];
+    return [unlockedHandlers autorelease];
 }
 
 - (BOOL)isHandlerLocked:(AFFEventHandler *)handler
@@ -276,7 +275,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
             [_handlers removeObject:handler];
     });
     
-    [removeableHandlers ah_release];
+    [removeableHandlers release];
     removeableHandlers = nil;
 }
 
@@ -309,10 +308,10 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
             [_handlers removeObject:object];
     });
     
-    [handlersCopy ah_release];
+    [handlersCopy release];
     handlersCopy = nil;
 
-    [oneTimeHandlers ah_release];
+    [oneTimeHandlers release];
     oneTimeHandlers = nil;
 }
 
@@ -321,10 +320,10 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
     sender = nil;
     target = nil;
     eventName = nil;
-    [_handlers ah_release];
+    [_handlers release];
     _handlers = nil;
     
-    [super ah_dealloc];
+    [super dealloc];
 }
 
 @end

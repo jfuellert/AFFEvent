@@ -28,7 +28,6 @@
 //
 
 #import "AFFEventHandler.h"
-#import "ARCHelper.h"
 #include <objc/runtime.h>
 #include <objc/message.h>
 
@@ -39,7 +38,7 @@
 
 id affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString *leventName, NSArray *largs)
 {
-    return [[[AFFEventHandler alloc] initWithSender:lsender andObserver:lobserver andSelector:lselector andEventName:leventName andArgs:largs] ah_autorelease];
+    return [[[AFFEventHandler alloc] initWithSender:lsender andObserver:lobserver andSelector:lselector andEventName:leventName andArgs:largs] autorelease];
 }
 
 - (id)initWithSender:(NSObject *)lsender andObserver:(NSObject *)lobserver andSelector:(SEL)lselector andEventName:(NSString *)leventName andArgs:(NSArray *)largs
@@ -183,10 +182,10 @@ id affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString
     observer = nil;
     selector = nil;
     _eventNameWithHash = nil;
-    [args ah_release];
+    [args release];
     args = nil;
     
-    [super ah_dealloc];
+    [super dealloc];
 }
 
 @end

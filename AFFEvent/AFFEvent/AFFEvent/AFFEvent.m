@@ -28,7 +28,6 @@
 //
 
 #import "AFFEvent.h"
-#import "ARCHelper.h"
 
 @implementation AFFEvent
 @synthesize sender = _sender;
@@ -37,7 +36,7 @@
 
 id affEventObjectWithSender(id lsender, id ldata, NSString *leventName)
 {
-    return [[[AFFEvent alloc] initWithSender:lsender andData:ldata andEventName:leventName] ah_autorelease];
+    return [[[AFFEvent alloc] initWithSender:lsender andData:ldata andEventName:leventName] autorelease];
 }
 
 - (id)initWithSender:(id)lsender andData:(id)ldata andEventName:(NSString *)leventName
