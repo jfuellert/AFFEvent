@@ -10,7 +10,7 @@ Earliest tested and supported build and deployment target - iOS 5.0.
 Latest tested and supported build and deployment target - iOS 7.0.
 
 ##ARC Compatibility
-AFFEvent is built from non-ARC but is ARC-compatible thanks to Nick Lockwood's ARCHelper found here https://gist.github.com/1563325.
+AFFEvent is built from non-ARC and is currently not ARC friendly. Use '-fno-objc-arc' compiler flags in your project's Build Phases for AFFEvent files when using ARC.
 	
 ##Installation
 Copy the AFFEvent folder and contents to your project.
