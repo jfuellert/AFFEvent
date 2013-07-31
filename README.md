@@ -120,7 +120,7 @@ A handler with one or more other parameters must include an AFFEvent object as i
     - (void)eventHandler:(AFFEvent *)event withArg0:(id)arg0 andArg1:(id)arg1 andArg2:(id)arg2 {} 
 
 ###Event object
-The AFFEvent is the object being sent, much like an NSNotification. The event object itself has three accessible properties:
+The AFFEvent is the object being sent, much like an NSNotification. This event object may be subclassed as needed. The event object itself has three accessible properties:
 
     @property (nonatomic, readonly) id sender;
     @property (nonatomic, readonly) id data;
@@ -170,5 +170,6 @@ Here is an example of basic usage of AFFEvents. An event is first created in the
 
 ##Changelog
 
+- July 30, 2013	: First official release (1.0.0).
 - July 28, 2013	: Added AFFEventAPI locks and unlocks. This will allow for more control over an event's handlers.
 - July 25, 2013 : Added performance tweaks.
