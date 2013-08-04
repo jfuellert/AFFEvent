@@ -27,11 +27,13 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#import "AFFBlock.h"
 #import "AFFEventAPI.h"
 
 @interface AFFEventAPI ()
 {
     NSMutableSet *_handlers;
+    NSMutableSet *_blocks;
 }
 
 @end
@@ -103,6 +105,44 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 }
 
 /*
+ * Add block
+ */
+- (id<AFFEventAPI>)addBlock:(void (^)(void))block withName:(NSString *)name
+{
+    if(!_blocks)
+        _blocks = [NSMutableSet new];
+
+    AFFBlock *_block = [AFFBlock new];
+    _block.blockName = name;
+    _block.block = block;
+    
+    [_blocks addObject:_block];
+    
+    [_block release];
+    _block = nil;
+    
+    return self;
+}
+
+- (id<AFFEventAPI>)addBlockOneTime:(void (^)(void))block withName:(NSString *)name
+{
+    if(!_blocks)
+        _blocks = [NSMutableSet new];
+    
+    AFFBlock *_block = [AFFBlock new];
+    _block.blockName = name;
+    _block.block = block;
+    _block.isOneTimeBlock = TRUE;
+    
+    [_blocks addObject:_block];
+    
+    [_block release];
+    _block = nil;
+    
+    return self;
+}
+
+/*
  * Handler check methods
  */
 - (BOOL)hasHandler:(AFFEventHandler *)handler
@@ -129,6 +169,19 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
             [returnHandlers addObject:__handler];
     }
     return returnHandlers;
+}
+
+/*
+ * Block check methods
+ */
+- (BOOL)hasBlock:(NSString *)blockName
+{
+    for(AFFBlock *block in _blocks)
+    {
+        if([block.blockName isEqualToString:blockName])
+            return TRUE;
+    }
+    return FALSE;
 }
 
 /*
@@ -233,6 +286,107 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 }
 
 /*
+ * Block lock methods
+ */
+- (void)lockBlockByName:(NSString *)blockName
+{
+    for(AFFBlock *block in _blocks)
+    {
+        if([block.blockName isEqualToString:blockName])
+        {
+            block.isLocked = TRUE;
+            break;
+        }
+    }
+}
+
+- (void)unlockBlockByName:(NSString *)blockName
+{
+    for(AFFBlock *block in _blocks)
+    {
+        if([block.blockName isEqualToString:blockName])
+        {
+            block.isLocked = FALSE;
+            break;
+        }
+    }
+}
+
+- (void)lockBlocksByNames:(NSSet *)blockNames
+{
+    for(AFFBlock *block in _blocks)
+    {
+        for(NSString *blockNameInSet in blockNames)
+        {
+            if([block.blockName isEqualToString:blockNameInSet])
+            {
+                block.isLocked = TRUE;
+            }
+        }
+    }
+}
+
+- (void)unlockBlocksByNames:(NSSet *)blockNames
+{
+    for(AFFBlock *block in _blocks)
+    {
+        for(NSString *blockNameInSet in blockNames)
+        {
+            if([block.blockName isEqualToString:blockNameInSet])
+            {
+                block.isLocked = FALSE;
+            }
+        }
+    }
+}
+
+- (void)lockBlocks
+{
+    for(AFFBlock *block in _blocks)
+        block.isLocked = TRUE;
+}
+
+- (void)unlockBlocks
+{
+    for(AFFBlock *block in _blocks)
+        block.isLocked = FALSE;
+}
+
+- (NSSet *)lockedBlocks
+{
+    NSMutableSet *lockedBlocks = [[NSMutableSet alloc] initWithCapacity:_blocks.count];
+    
+    for(AFFBlock *block in _blocks)
+    {
+        if(block.isLocked)
+            [lockedBlocks addObject:block];
+    }
+    return [lockedBlocks autorelease];
+}
+
+- (NSSet *)unlockedBlocks
+{
+    NSMutableSet *unlockedBlocks = [[NSMutableSet alloc] initWithCapacity:_blocks.count];
+    
+    for(AFFBlock *block in _blocks)
+    {
+        if(!block.isLocked)
+            [unlockedBlocks addObject:block];
+    }
+    return [unlockedBlocks autorelease];
+}
+
+- (BOOL)isBlockLocked:(NSString *)blockName
+{
+    for(AFFBlock *block in _blocks)
+    {
+        if([block.blockName isEqualToString:blockName])
+            return block.isLocked;
+    }
+    return FALSE;
+}
+
+/*
  * Remove handlers
  */
 - (void)removeHandler:(AFFEventHandler *)handler
@@ -280,6 +434,34 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 }
 
 /*
+ * Remove blocks
+ */
+- (void)removeBlockByName:(NSString *)blockName
+{
+    for(AFFBlock *___block in _blocks)
+    {
+        if([___block.blockName isEqualToString:blockName])
+        {
+            [_blocks removeObject:___block];
+            break;
+        }
+    }
+}
+
+- (void)removeBlocksByName:(NSSet *)blockNames
+{
+    dispatch_async(affAPIDispatchQueue(), ^{
+        for(NSString *blockName in blockNames)
+            [self removeBlockByName:blockName];
+    });
+}
+
+- (void)removeBlocks
+{
+    [_blocks removeAllObjects];
+}
+
+/*
  * Send data
  */
 - (void)send
@@ -288,11 +470,22 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 }
 
 - (void)send:(id)data
-{    
+{
+    //Blocks
+    NSMutableSet *oneTimeBlocks = [NSMutableSet new];
+    NSMutableSet *blocksCopy = [[NSMutableSet alloc] initWithSet:[self unlockedBlocks]];
+    for(AFFBlock *block in blocksCopy)
+    {
+        block.block();
+        if(block.isOneTimeBlock)
+            [oneTimeBlocks addObject:block];
+    }
+    
+    //Handlers
     AFFEvent *event = affEventObjectWithSender(sender, data, eventName);
     NSMutableSet *oneTimeHandlers = [NSMutableSet new];
     NSMutableSet *handlersCopy = [[NSMutableSet alloc] initWithSet:[self unlockedHandlers]];
-        
+    
     for(AFFEventHandler *handler in handlersCopy)
     {
         if([handler.eventNameWithHash isEqualToString:affCreateEventName(eventName, [(NSObject *)sender hash])])
@@ -303,9 +496,13 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
         }
     }
     
+    //Cleanup
     dispatch_async(affAPIDispatchQueue(), ^{
         for(id object in oneTimeHandlers)
             [_handlers removeObject:object];
+        
+        for(id object in oneTimeBlocks)
+            [_blocks removeObject:object];
     });
     
     [handlersCopy release];
@@ -320,8 +517,14 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
     sender = nil;
     target = nil;
     eventName = nil;
-    [_handlers release];
+    
+    if(_handlers)
+        [_handlers release];
     _handlers = nil;
+    
+    if(_blocks)
+        [_blocks release];
+    _blocks = nil;
     
     [super dealloc];
 }

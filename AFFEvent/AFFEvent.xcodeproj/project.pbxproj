@@ -29,6 +29,7 @@
 		76545327179C4289003F40B3 /* AFFEventSystemHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 765452F1179C4130003F40B3 /* AFFEventSystemHandler.h */; };
 		76545329179C42C1003F40B3 /* libAFFEvent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 765452D4179C40DB003F40B3 /* libAFFEvent.a */; };
 		76545395179C6B8B003F40B3 /* TestButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 76545394179C6B8B003F40B3 /* TestButton.m */; };
+		769CE0F117ADFA4000AFDA68 /* AFFBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 769CE0F017ADFA4000AFDA68 /* AFFBlock.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,6 +78,8 @@
 		76545316179C415D003F40B3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		76545393179C6B8B003F40B3 /* TestButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestButton.h; path = TestButton/TestButton.h; sourceTree = "<group>"; };
 		76545394179C6B8B003F40B3 /* TestButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestButton.m; path = TestButton/TestButton.m; sourceTree = "<group>"; };
+		769CE0EF17ADFA4000AFDA68 /* AFFBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFFBlock.h; path = AFFBlock/AFFBlock.h; sourceTree = "<group>"; };
+		769CE0F017ADFA4000AFDA68 /* AFFBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFFBlock.m; path = AFFBlock/AFFBlock.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +137,7 @@
 		765452D9179C40DB003F40B3 /* AFFEvent */ = {
 			isa = PBXGroup;
 			children = (
+				769CE0EE17ADFA1500AFDA68 /* AFFBlock */,
 				765452E5179C4130003F40B3 /* AFFEvent */,
 				765452E8179C4130003F40B3 /* AFFEventAPI */,
 				765452EB179C4130003F40B3 /* AFFEventCenter */,
@@ -232,6 +236,15 @@
 			name = TestButton;
 			sourceTree = "<group>";
 		};
+		769CE0EE17ADFA1500AFDA68 /* AFFBlock */ = {
+			isa = PBXGroup;
+			children = (
+				769CE0EF17ADFA4000AFDA68 /* AFFBlock.h */,
+				769CE0F017ADFA4000AFDA68 /* AFFBlock.m */,
+			);
+			name = AFFBlock;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -319,6 +332,7 @@
 				765452F6179C4130003F40B3 /* AFFEventAPI.m in Sources */,
 				765452F7179C4130003F40B3 /* AFFEventHandler.m in Sources */,
 				765452F8179C4130003F40B3 /* AFFEventSystemHandler.m in Sources */,
+				769CE0F117ADFA4000AFDA68 /* AFFBlock.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

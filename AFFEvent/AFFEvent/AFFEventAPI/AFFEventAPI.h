@@ -37,10 +37,17 @@
 - (id<AFFEventAPI>)addHandler:(AFFEventHandler *)handler;
 - (id<AFFEventAPI>)addHandlerOneTime:(AFFEventHandler *)handler;
 
+//Add block handling
+- (id<AFFEventAPI>)addBlock:(void (^)(void))block withName:(NSString *)name;
+- (id<AFFEventAPI>)addBlockOneTime:(void (^)(void))block withName:(NSString *)name;
+
 //Handler check methods
 - (BOOL)hasHandler:(AFFEventHandler *)handler;
 - (NSSet *)handlers;
 - (NSSet *)handlersForObserver:(id)observer;
+
+//Block check methods
+- (BOOL)hasBlock:(NSString *)blockName;
 
 //Handler lock methods
 - (void)lockHandler:(AFFEventHandler *)handler;
@@ -53,11 +60,27 @@
 - (NSSet *)unlockedHandlers;
 - (BOOL)isHandlerLocked:(AFFEventHandler *)handler;
 
+//Block lock methods
+- (void)lockBlockByName:(NSString *)blockName;
+- (void)unlockBlockByName:(NSString *)blockName;
+- (void)lockBlocksByNames:(NSSet *)blockNames;
+- (void)unlockBlocksByNames:(NSSet *)blockNames;
+- (void)lockBlocks;
+- (void)unlockBlocks;
+- (NSSet *)lockedBlocks;
+- (NSSet *)unlockedBlocks;
+- (BOOL)isBlockLocked:(NSString *)blockName;
+
 //Handler removal handling
 - (void)removeHandler:(AFFEventHandler *)handler;
 - (void)removeHandlers:(NSSet *)handlerSet;
 - (void)removeHandlersForObserver:(id)observer;
 - (void)removeHandlers;
+
+//Block removal handling
+- (void)removeBlockByName:(NSString *)blockName;
+- (void)removeBlocksByName:(NSSet *)blockNames;
+- (void)removeBlocks;
 
 //Sending event and data handling
 - (void)send;

@@ -51,11 +51,12 @@ Implementation file :
     //@type : NSString
 
 ##AFFEventAPI
-The AFFEventAPI object is the container object for handler interactions. Here is where you can send events, check handlers, lock and unlock handlers, add handlers, and remove handlers. Events handling can be changed at any time using any of the AFFEventAPI methods. These methods can also be chained.
+The AFFEventAPI object is the container object for handler interactions. Here is where you can send events, check handlers or blocks, lock and unlock handlers or blocks, add handlers, add blocks, remove handlers, and remove blocks. Events handling can be changed at any time using any of the AFFEventAPI methods. These methods can also be chained.
 
-###Locking / Unlocking Handlers
-AFFEventAPI objects control their handler counterparts so they have the ability to add, remove, or, in this case, lock and unlock any handlers. Locking a handler method means that the method won't be fired upon sending an event. The handler is not removed from the event handler list so it can be used again by unlocking it. This locking and unlocking of method handlers is especially useful in cases where you'd want to temporarily block interactions; let's say a pop-up menu that blocks other elements in an interface from interacting while the pop-up is active. Here is a list of locking and unlocking methods that AFFEvent provides:
+###Locking / Unlocking Handlers and Blocks
+AFFEventAPI objects control their handler and block counterparts so they have the ability to add, remove, or, in this case, lock and unlock any handlers and blocks. Locking a handler method or a block means that the method or block won't be fired upon sending an event. The handler or block is not removed from the event handler list so it can be used again by unlocking it. This locking and unlocking of method handlers and blocks is especially useful in cases where you'd want to temporarily disable interactions; let's say a pop-up menu that blocks other elements in an interface from interacting while the pop-up is active. Here is a list of locking and unlocking methods that AFFEvent provides:
 
+    //Handler lock methods
     - (void)lockHandler:(AFFEventHandler *)handler;
     - (void)unlockHandler:(AFFEventHandler *)handler;
     - (void)lockHandlers:(NSSet *)handlers;
@@ -65,6 +66,19 @@ AFFEventAPI objects control their handler counterparts so they have the ability 
     - (NSSet *)lockedHandlers;
     - (NSSet *)unlockedHandlers;
     - (BOOL)isHandlerLocked:(AFFEventHandler *)handler;  
+
+    //Block lock methods
+    - (void)lockBlockByName:(NSString *)blockName;
+    - (void)unlockBlockByName:(NSString *)blockName;
+    - (void)lockBlocksByNames:(NSSet *)blockNames;
+    - (void)unlockBlocksByNames:(NSSet *)blockNames;
+    - (void)lockBlocks;
+    - (void)unlockBlocks;
+    - (NSSet *)lockedBlocks;
+    - (NSSet *)unlockedBlocks;
+    - (BOOL)isBlockLocked:(NSString *)blockName;
+
+Handler locks should be called outside of the class that created the handler's event. This means that '[[self $eventName] lockHandlers]' or '[[self $eventName] unlockHandlers]' should not be called from 'self'.
 
 ###Event Removal
 A class in which an event is created is also responsible for destroying that event in it's deallocation. This can easily be done by using AFFRemoveAllEvents() in a class's dealloc method. This will remove any event objects for that class from the AFFEventSystemHandler. To remove a specific event from a class use AFFRemoveEvent( $eventName ).
@@ -85,6 +99,7 @@ An event may be sent by the class in which the event was created and / or by cla
     //Send events from an instance of a class
     [[instance $eventName] send];
     [[instance $eventName] send:data];
+
 ###Listening for an event
 Events may be listened for much like how they are listened for using NSNotificationCenter. To add a handler simply add it to the event you want to listen for and add the selector and arguments, if any.
 
@@ -105,6 +120,16 @@ One time handlers with arguments:
 
     [[class $eventName] addHandlerOneTime:AFFHandlerWithArgs(@selector(SEL:::::…), arg0, arg1, arg2, arg3…)];
     [[instance $eventName] addHandlerOneTime:AFFHandlerWithArgs(@selector(SEL:::::…), arg0, arg1, arg2, arg3…)];
+
+Blocks can also be added as handlers to listen to an event. This is done is slightly different way than using a selector and uses a naming convention to organize the blocks. If you do not wish to ever change a block handler then you can simply pass 'nil' for the block name. Adding a block handler is similar to adding a selector handler.
+
+    [[class $eventName] addBlock:^{ } withName:name];
+    [[instance $eventName] addBlock:^{ } withName:name];
+
+One time handlers are handlers that are only called once then destroyed from the event sender:
+
+    [[class $eventName] addBlockOneTime:^{ } withName:name];
+    [[instance $eventName] addBlockOneTime:^{ } withName:name];
 
 ###Retrieving data from the event to the handler
 Retrieving data from an event is very similar to NSNotification usage. The selector for which an event is going to trigger can have multiple parameters. If the event being sent has no data and doesn't need any sender information, then the selector does not need to have an AFFEvent object parameter.

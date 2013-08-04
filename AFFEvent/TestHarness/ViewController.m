@@ -50,25 +50,63 @@
     buttonOne = [[TestButton alloc] initWithFrame:CGRectMake(buttonX, buttonY, buttonWidth, buttonHeight)];
     buttonOne.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:buttonOne];
-    
-    [[buttonOne evtPressed] addHandler:AFFHandlerWithArgs(@selector(onButtonOnePressed:withSomething:andSomethingElse:), [NSNumber numberWithInt:99], [NSNumber numberWithInt:98])];
-    
+        
     buttonTwo = [[TestButton alloc] initWithFrame:CGRectMake(buttonX, buttonOne.frame.origin.y + buttonOne.frame.size.height + 20, buttonWidth, buttonHeight)];
     buttonTwo.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:buttonTwo];
     
+    //Handler testing
+    [[buttonOne evtPressed] addHandler:AFFHandlerWithArgs(@selector(onButtonOnePressed:withSomething:andSomethingElse:), [NSNumber numberWithInt:99], [NSNumber numberWithInt:98])];
+
     [[buttonTwo evtPressed] addHandler:AFFHandler(@selector(onButtonTwoPressed))];
+    
+    //Block testing
+//    [[buttonOne evtPressed] addBlock:^{
+//        NSLog(@"block success!");
+//    } withName:@"blockName"];
+    
+    //Block testing with block chaining (just for fun)
+    [[[[buttonOne evtPressed] addBlock:^{
+        buttonOne.backgroundColor = [UIColor greenColor];
+    } withName:@"blockName"] addBlock:^{
+        NSLog(@"block success!");
+    } withName:@"anotherName"] addBlockOneTime:^{
+        NSLog(@"once");
+    } withName:@"onceName"];
+
+    [[buttonOne evtPressed] lockBlocks];
 
 }
 
 //Actions
+- (void)onButtonOneBSHandler
+{
+    NSLog(@"button one bs handler");
+}
+
 - (void)onButtonOnePressed:(AFFEvent *)event withSomething:(NSNumber *)something andSomethingElse:(NSNumber *)somethingElse
 {
-    NSLog(@"Sender : %@", event.sender);
-    NSLog(@"Data : %@", event.data);
-    NSLog(@"Event name : %@", event.eventName);
+//    NSLog(@"Sender : %@", event.sender);
+//    NSLog(@"Data : %@", event.data);
+//    NSLog(@"Event name : %@", event.eventName);
     
     outputLabel.text = [NSString stringWithFormat:@"%d", [event.data intValue]];
+    
+    [[buttonOne evtPressed] unlockBlocks];
+
+//    //Test locking methods
+//    NSLog(@"lockedHandlers : %@", [[buttonOne evtPressed] lockedHandlers]);
+//    NSLog(@"unlockedHandlers : %@", [[buttonOne evtPressed] unlockedHandlers]);
+//    
+//    //Check if the handler is unlocked, if it is then lock it
+//    if(![[buttonOne evtPressed] isHandlerLocked:AFFHandler(@selector(onButtonOnePressed:withSomething:andSomethingElse:))])
+//    {
+//        [[buttonOne evtPressed] lockHandler:AFFHandler(@selector(onButtonOnePressed:withSomething:andSomethingElse:))];
+//    }
+//
+//    //See that the handler is now locked
+//    NSLog(@"lockedHandlers : %@", [[buttonOne evtPressed] lockedHandlers]);
+//    NSLog(@"unlockedHandlers : %@", [[buttonOne evtPressed] unlockedHandlers]);
 }
 
 - (void)onButtonTwoPressed
