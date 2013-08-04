@@ -1,6 +1,6 @@
 AFFEvent
 ========
-AFFEvent is an alternative event system built for iOS. The event system strays away from the traditional NSNotificationCenter and delegation and instead holds an alterable event system that lets you add, remove, and modify events and / or handlers. It also allows for multiple parameter methods to be called upon an event being fired. AFFEvent still allows for default NSNotificationCenter and delegation usage. 
+AFFEvent is an alternative event system built for iOS. The event system has an alterable event system that lets you add, remove, and modify events and / or handlers and blocks. It also allows for multiple parameter methods and blocks to be called upon an event being fired. 
 
 ##Purpose
 The purpose of this software is to give developers an alternative way to handle events in iOS. It's primary goal is to minimize delegation usage in areas where it should not necessarily be needed. By removing this need for delegation, classes have more control over events and can do unique things with them including firing an instance event of one class using a another class, using class events, or firing single time events.
