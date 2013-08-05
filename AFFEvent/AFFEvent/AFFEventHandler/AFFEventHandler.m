@@ -36,7 +36,7 @@
 @synthesize isOneTimeHandler = _isOneTimeHandler;
 @synthesize eventNameWithHash = _eventNameWithHash;
 
-id affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString *leventName, NSArray *largs)
+AFFEventHandler *affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString *leventName, NSArray *largs)
 {
     return [[[AFFEventHandler alloc] initWithSender:lsender andObserver:lobserver andSelector:lselector andEventName:leventName andArgs:largs] autorelease];
 }

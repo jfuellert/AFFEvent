@@ -35,6 +35,6 @@
 @property (nonatomic, readonly) id data;
 @property (nonatomic, readonly) NSString *eventName;
 
-id affEventObjectWithSender(id lsender, id ldata, NSString *leventName);
+AFFEvent *affEventObjectWithSender(id lsender, id ldata, NSString *leventName);
 
 @end

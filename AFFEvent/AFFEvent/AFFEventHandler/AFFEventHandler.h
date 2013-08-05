@@ -43,7 +43,7 @@
 @property (nonatomic, retain) NSString *eventNameWithHash;
 
 //Creation
-id affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString *leventName, NSArray *largs);
+AFFEventHandler *affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString *leventName, NSArray *largs);
 
 - (void)invokeWithEvent:(AFFEvent *)event;
 

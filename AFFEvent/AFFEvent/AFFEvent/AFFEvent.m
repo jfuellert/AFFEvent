@@ -34,7 +34,7 @@
 @synthesize data = _data;
 @synthesize eventName = _eventName;
 
-id affEventObjectWithSender(id lsender, id ldata, NSString *leventName)
+AFFEvent *affEventObjectWithSender(id lsender, id ldata, NSString *leventName)
 {
     return [[[AFFEvent alloc] initWithSender:lsender andData:ldata andEventName:leventName] autorelease];
 }
