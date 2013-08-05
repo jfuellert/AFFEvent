@@ -505,6 +505,12 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
             [_blocks removeObject:object];
     });
     
+    [blocksCopy release];
+    blocksCopy = nil;
+
+    [oneTimeBlocks release];
+    oneTimeBlocks = nil;
+    
     [handlersCopy release];
     handlersCopy = nil;
 

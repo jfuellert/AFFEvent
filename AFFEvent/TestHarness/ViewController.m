@@ -17,8 +17,6 @@
     [self createTextLabel];
     [self createOutputLabel];
     [self createButtons];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTestButtonPressedNotification:) name:@"onPress" object:nil];
 }
 
 - (void)createTextLabel
@@ -75,7 +73,6 @@
     } withName:@"onceName"];
 
     [[buttonOne evtPressed] lockBlocks];
-
 }
 
 //Actions

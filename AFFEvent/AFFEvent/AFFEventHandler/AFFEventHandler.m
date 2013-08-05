@@ -181,6 +181,7 @@ id affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString
     sender = nil;
     observer = nil;
     selector = nil;
+    [_eventNameWithHash release];
     _eventNameWithHash = nil;
     [args release];
     args = nil;
