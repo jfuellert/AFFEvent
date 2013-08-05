@@ -30,6 +30,10 @@
 #import "AFFBlock.h"
 
 @implementation AFFBlock
+@synthesize isLocked = _isLocked;
+@synthesize isOneTimeBlock = _isOneTimeBlock;
+@synthesize blockName = _blockName;
+@synthesize block = _block;
 
 - (id)init
 {
@@ -44,6 +48,8 @@
 
 - (void)dealloc
 {
+    if(_blockName)
+        [_blockName release];
     _blockName = nil;
     
     [super dealloc];

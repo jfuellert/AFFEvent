@@ -112,14 +112,14 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
     if(!_blocks)
         _blocks = [NSMutableSet new];
 
-    AFFBlock *_block = [AFFBlock new];
-    _block.blockName = name;
-    _block.block = block;
+    AFFBlock *newBlock = [AFFBlock new];
+    newBlock.blockName = name;
+    newBlock.block = block;
     
-    [_blocks addObject:_block];
+    [_blocks addObject:newBlock];
     
-    [_block release];
-    _block = nil;
+    [newBlock release];
+    newBlock = nil;
     
     return self;
 }
@@ -129,15 +129,15 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
     if(!_blocks)
         _blocks = [NSMutableSet new];
     
-    AFFBlock *_block = [AFFBlock new];
-    _block.blockName = name;
-    _block.block = block;
-    _block.isOneTimeBlock = TRUE;
+    AFFBlock *newBlock = [AFFBlock new];
+    newBlock.blockName = name;
+    newBlock.block = block;
+    newBlock.isOneTimeBlock = TRUE;
     
-    [_blocks addObject:_block];
+    [_blocks addObject:newBlock];
     
-    [_block release];
-    _block = nil;
+    [newBlock release];
+    newBlock = nil;
     
     return self;
 }
@@ -147,9 +147,9 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
  */
 - (BOOL)hasHandler:(AFFEventHandler *)handler
 {
-    for(AFFEventHandler *__handler in _handlers)
+    for(AFFEventHandler *handlerInSet in _handlers)
     {
-        if([NSStringFromSelector(__handler->selector) isEqualToString:NSStringFromSelector(handler->selector)])
+        if([NSStringFromSelector(handlerInSet->selector) isEqualToString:NSStringFromSelector(handler->selector)])
             return TRUE;
     }
     return FALSE;
@@ -163,10 +163,10 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 - (NSSet *)handlersForObserver:(id)observer
 {
     NSMutableSet *returnHandlers = [NSMutableSet new];
-    for(AFFEventHandler *__handler in _handlers)
+    for(AFFEventHandler *handlerInSet in _handlers)
     {
-        if([__handler->observer isEqual:observer])
-            [returnHandlers addObject:__handler];
+        if([handlerInSet->observer isEqual:observer])
+            [returnHandlers addObject:handlerInSet];
     }
     return returnHandlers;
 }
@@ -189,11 +189,11 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
  */
 - (void)lockHandler:(AFFEventHandler *)handler
 {
-    for(AFFEventHandler *__handler in _handlers)
+    for(AFFEventHandler *handlerInSet in _handlers)
     {
-        if([NSStringFromSelector(__handler->selector) isEqualToString:NSStringFromSelector(handler->selector)])
+        if([NSStringFromSelector(handlerInSet->selector) isEqualToString:NSStringFromSelector(handler->selector)])
         {
-            __handler.isLocked = TRUE;
+            handlerInSet.isLocked = TRUE;
             break;
         }
     }
@@ -201,11 +201,11 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 
 - (void)unlockHandler:(AFFEventHandler *)handler
 {
-    for(AFFEventHandler *__handler in _handlers)
+    for(AFFEventHandler *handlerInSet in _handlers)
     {
-        if([NSStringFromSelector(__handler->selector) isEqualToString:NSStringFromSelector(handler->selector)])
+        if([NSStringFromSelector(handlerInSet->selector) isEqualToString:NSStringFromSelector(handler->selector)])
         {
-            __handler.isLocked = FALSE;
+            handlerInSet.isLocked = FALSE;
             break;
         }
     }
@@ -213,13 +213,13 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 
 - (void)lockHandlers:(NSSet *)handlers
 {
-    for(AFFEventHandler *__handler in _handlers)
+    for(AFFEventHandler *handler in _handlers)
     {
         for(AFFEventHandler *handlerInSet in handlers)
         {
-            if([NSStringFromSelector(__handler->selector) isEqualToString:NSStringFromSelector(handlerInSet->selector)])
+            if([NSStringFromSelector(handler->selector) isEqualToString:NSStringFromSelector(handlerInSet->selector)])
             {
-                __handler.isLocked = TRUE;
+                handler.isLocked = TRUE;
             }
         }
     }
@@ -227,13 +227,13 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 
 - (void)unlockHandlers:(NSSet *)handlers
 {
-    for(AFFEventHandler *__handler in _handlers)
+    for(AFFEventHandler *handler in _handlers)
     {
         for(AFFEventHandler *handlerInSet in handlers)
         {
-            if([NSStringFromSelector(__handler->selector) isEqualToString:NSStringFromSelector(handlerInSet->selector)])
+            if([NSStringFromSelector(handler->selector) isEqualToString:NSStringFromSelector(handlerInSet->selector)])
             {
-                __handler.isLocked = FALSE;
+                handler.isLocked = FALSE;
             }
         }
     }
@@ -241,24 +241,24 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 
 - (void)lockHandlers
 {
-    for(AFFEventHandler *__handler in _handlers)
-        __handler.isLocked = TRUE;
+    for(AFFEventHandler *handler in _handlers)
+        handler.isLocked = TRUE;
 }
 
 - (void)unlockHandlers
 {
-    for(AFFEventHandler *__handler in _handlers)
-        __handler.isLocked = FALSE;
+    for(AFFEventHandler *handler in _handlers)
+        handler.isLocked = FALSE;
 }
 
 - (NSSet *)lockedHandlers
 {
     NSMutableSet *lockedHandlers = [[NSMutableSet alloc] initWithCapacity:_handlers.count];
     
-    for(AFFEventHandler *__handler in _handlers)
+    for(AFFEventHandler *handler in _handlers)
     {
-        if(__handler.isLocked)
-            [lockedHandlers addObject:__handler];
+        if(handler.isLocked)
+            [lockedHandlers addObject:handler];
     }
     return [lockedHandlers autorelease];
 }
@@ -267,20 +267,20 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 {
     NSMutableSet *unlockedHandlers = [[NSMutableSet alloc] initWithCapacity:_handlers.count];
     
-    for(AFFEventHandler *__handler in _handlers)
+    for(AFFEventHandler *handler in _handlers)
     {
-        if(!__handler.isLocked)
-            [unlockedHandlers addObject:__handler];
+        if(!handler.isLocked)
+            [unlockedHandlers addObject:handler];
     }
     return [unlockedHandlers autorelease];
 }
 
 - (BOOL)isHandlerLocked:(AFFEventHandler *)handler
 {
-    for(AFFEventHandler *__handler in _handlers)
+    for(AFFEventHandler *handlerInSet in _handlers)
     {
-        if([NSStringFromSelector(__handler->selector) isEqualToString:NSStringFromSelector(handler->selector)])
-            return __handler.isLocked;
+        if([NSStringFromSelector(handlerInSet->selector) isEqualToString:NSStringFromSelector(handler->selector)])
+            return handlerInSet.isLocked;
     }
     return FALSE;
 }
@@ -391,11 +391,11 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
  */
 - (void)removeHandler:(AFFEventHandler *)handler
 {
-    for(AFFEventHandler *__handler in _handlers)
+    for(AFFEventHandler *handlerInSet in _handlers)
     {
-        if([__handler->observer isEqual:handler->observer] && [NSStringFromSelector(__handler->selector) isEqualToString:NSStringFromSelector(handler->selector)])
+        if([handlerInSet->observer isEqual:handler->observer] && [NSStringFromSelector(handlerInSet->selector) isEqualToString:NSStringFromSelector(handler->selector)])
         {
-            [_handlers removeObject:__handler];
+            [_handlers removeObject:handlerInSet];
             break;
         }
     }
@@ -438,11 +438,11 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
  */
 - (void)removeBlockByName:(NSString *)blockName
 {
-    for(AFFBlock *___block in _blocks)
+    for(AFFBlock *block in _blocks)
     {
-        if([___block.blockName isEqualToString:blockName])
+        if([block.blockName isEqualToString:blockName])
         {
-            [_blocks removeObject:___block];
+            [_blocks removeObject:block];
             break;
         }
     }

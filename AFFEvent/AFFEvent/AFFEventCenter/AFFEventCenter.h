@@ -40,7 +40,7 @@ $eventLevel (AFFEventAPI *)$eventName
 #define AFFEventSynthesize( $eventLevel, $eventName )                                               \
 $eventLevel (AFFEventAPI *)$eventName                                                               \
 {                                                                                                   \
-    return affEventForEventName(@#$eventName, self);    \
+    return affEventForEventName(@#$eventName, self);                                                \
 }
 
 #define AFFRemoveAllEvents()                                                                        \

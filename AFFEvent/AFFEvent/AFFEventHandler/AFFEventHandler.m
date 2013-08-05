@@ -67,8 +67,8 @@ AFFEventHandler *affCreateHandlerWithSender(id lsender, id lobserver, SEL lselec
         NSMethodSignature *signature = [observer methodSignatureForSelector:selector];
         if(!signature) return;
         
-        int signatureCount = [signature numberOfArguments];
-        int argumentCount = [args count];
+        NSUInteger signatureCount = [signature numberOfArguments];
+        NSUInteger argumentCount = [args count];
         
         //Two arguments are hidden defaults. Check for correct number of arguments
         if(signatureCount - argumentCount < 2)
