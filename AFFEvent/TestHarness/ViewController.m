@@ -59,56 +59,21 @@
     [[buttonTwo evtPressed] addHandler:AFFHandler(@selector(onButtonTwoPressed))];
     
     //Block testing
-//    [[buttonOne evtPressed] addBlock:^{
-//        NSLog(@"block success!");
-//    } withName:@"blockName"];
     
     //Block testing with block chaining (just for fun)
-    [[[[buttonOne evtPressed] addBlock:^{
+    [[buttonOne evtPressed] addBlockOneTime:^{
         buttonOne.backgroundColor = [UIColor greenColor];
-    } withName:@"blockName"] addBlock:^{
-        NSLog(@"block success!");
-    } withName:@"anotherName"] addBlockOneTime:^{
-        NSLog(@"once");
-    } withName:@"onceName"];
-
-    [[buttonOne evtPressed] lockBlocks];
+    } withName:@"blockName"];
 }
 
 //Actions
-- (void)onButtonOneBSHandler
-{
-    NSLog(@"button one bs handler");
-}
-
 - (void)onButtonOnePressed:(AFFEvent *)event withSomething:(NSNumber *)something andSomethingElse:(NSNumber *)somethingElse
 {
-//    NSLog(@"Sender : %@", event.sender);
-//    NSLog(@"Data : %@", event.data);
-//    NSLog(@"Event name : %@", event.eventName);
-    
     outputLabel.text = [NSString stringWithFormat:@"%d", [event.data intValue]];
-    
-    [[buttonOne evtPressed] unlockBlocks];
-
-//    //Test locking methods
-//    NSLog(@"lockedHandlers : %@", [[buttonOne evtPressed] lockedHandlers]);
-//    NSLog(@"unlockedHandlers : %@", [[buttonOne evtPressed] unlockedHandlers]);
-//    
-//    //Check if the handler is unlocked, if it is then lock it
-//    if(![[buttonOne evtPressed] isHandlerLocked:AFFHandler(@selector(onButtonOnePressed:withSomething:andSomethingElse:))])
-//    {
-//        [[buttonOne evtPressed] lockHandler:AFFHandler(@selector(onButtonOnePressed:withSomething:andSomethingElse:))];
-//    }
-//
-//    //See that the handler is now locked
-//    NSLog(@"lockedHandlers : %@", [[buttonOne evtPressed] lockedHandlers]);
-//    NSLog(@"unlockedHandlers : %@", [[buttonOne evtPressed] unlockedHandlers]);
 }
 
 - (void)onButtonTwoPressed
 {
-    
     CGFloat hue = ( arc4random() % 256 / 256.0 ); 
     CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  
     CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5; 

@@ -54,7 +54,7 @@ AFFEventAPI *affEventForEventName(NSString *eventName, id sender)
     
     //Create sender APIEvent object dictionary and / or objects if needed
     CFMutableDictionaryRef senderDictionary = (CFMutableDictionaryRef) CFDictionaryGetValue(eventDictionary(), (void *)senderHashKey);
-    
+
     if(!senderDictionary)
     {
         //Create a blank even

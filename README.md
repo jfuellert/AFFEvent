@@ -13,7 +13,7 @@ Latest tested and supported build and deployment target - iOS 7.0.
 AFFEvent is built from non-ARC and is currently not ARC friendly. Use '-fno-objc-arc' compiler flags in your project's Build Phases for AFFEvent files when using ARC.
 	
 ##Installation
-Copy the AFFEvent folder and contents to your project.
+Copy the AFFEvent folder and contents to your project. Be sure to always use the latest release binary for the easiest and most stable installation.
 Add the current line to your <AppName>-Prefix.pch file :
 	
     #import "AFFEventCenter.h"

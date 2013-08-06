@@ -4,12 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>AFFEvent.xcscheme</key>
+		<key>TestHarness.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-		<key>TestHarness.xcscheme</key>
+		<key>TestHarnessOSX.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
@@ -17,6 +17,21 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>764999D317B077AB00111705</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>76499A0317B07AEF00111705</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>76499A2617B07C3200111705</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>765452D3179C40DB003F40B3</key>
 		<dict>
 			<key>primary</key>
