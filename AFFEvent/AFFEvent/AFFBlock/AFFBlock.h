@@ -29,11 +29,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class AFFEvent;
+
 @interface AFFBlock : NSObject
 
 @property (nonatomic, assign) BOOL isLocked;
 @property (nonatomic, assign) BOOL isOneTimeBlock;
 @property (nonatomic, retain) NSString *blockName;
-@property (nonatomic, copy) void(^block)(void);
+@property (nonatomic, copy) void(^block)(AFFEvent *event);
 
 @end

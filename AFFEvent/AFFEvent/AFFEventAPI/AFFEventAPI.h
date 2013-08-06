@@ -38,8 +38,8 @@
 - (id<AFFEventAPI>)addHandlerOneTime:(AFFEventHandler *)handler;
 
 //Add block handling
-- (id<AFFEventAPI>)addBlock:(void (^)(void))block withName:(NSString *)name;
-- (id<AFFEventAPI>)addBlockOneTime:(void (^)(void))block withName:(NSString *)name;
+- (id<AFFEventAPI>)addBlock:(void (^)(AFFEvent *event))block withName:(NSString *)name;
+- (id<AFFEventAPI>)addBlockOneTime:(void (^)(AFFEvent *event))block withName:(NSString *)name;
 
 //Handler check methods
 - (BOOL)hasHandler:(AFFEventHandler *)handler;

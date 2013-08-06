@@ -107,7 +107,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 /*
  * Add block
  */
-- (id<AFFEventAPI>)addBlock:(void (^)(void))block withName:(NSString *)name
+- (id<AFFEventAPI>)addBlock:(void (^)(AFFEvent *event))block withName:(NSString *)name
 {
     if(!_blocks)
         _blocks = [NSMutableSet new];
@@ -124,7 +124,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
     return self;
 }
 
-- (id<AFFEventAPI>)addBlockOneTime:(void (^)(void))block withName:(NSString *)name
+- (id<AFFEventAPI>)addBlockOneTime:(void (^)(AFFEvent *event))block withName:(NSString *)name
 {
     if(!_blocks)
         _blocks = [NSMutableSet new];
@@ -471,18 +471,20 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 
 - (void)send:(id)data
 {
+    //Event
+    AFFEvent *event = affEventObjectWithSender(sender, data, eventName);
+
     //Blocks
     NSMutableSet *oneTimeBlocks = [NSMutableSet new];
     NSMutableSet *blocksCopy = [[NSMutableSet alloc] initWithSet:[self unlockedBlocks]];
     for(AFFBlock *block in blocksCopy)
     {
-        block.block();
+        block.block(event);
         if(block.isOneTimeBlock)
             [oneTimeBlocks addObject:block];
     }
     
     //Handlers
-    AFFEvent *event = affEventObjectWithSender(sender, data, eventName);
     NSMutableSet *oneTimeHandlers = [NSMutableSet new];
     NSMutableSet *handlersCopy = [[NSMutableSet alloc] initWithSet:[self unlockedHandlers]];
     

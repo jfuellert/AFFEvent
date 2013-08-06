@@ -61,9 +61,12 @@
     //Block testing
     
     //Block testing with block chaining (just for fun)
-    [[buttonOne evtPressed] addBlockOneTime:^{
+    [[buttonOne evtPressed] addBlock:^(AFFEvent *event) {
         buttonOne.backgroundColor = [UIColor greenColor];
+        NSLog(@"event.data : %d", [event.data integerValue]);
     } withName:@"blockName"];
+    
+    
 }
 
 //Actions
