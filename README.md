@@ -199,6 +199,7 @@ Here is an example of basic usage of AFFEvents. An event is first created in the
     @end
 
 ##Changelog
+- August 5, 2013: Released 1.2.0. This is a small feature release to extend on block support. 
 - August 5, 2013: Confirmed compatibility with MAC OSX 1.06 - 1.08. 
 - August 5, 2013: Released version 1.1.0. This release features newly added block support with functionality similar to that of selector handlers as well as bug fixes. 
 - August 4, 2013: Added the ability to use blocks instead of selectors when listening to an event. This will allow for more simplicity and flexibility.
