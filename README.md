@@ -128,13 +128,13 @@ One time handlers with arguments:
 
 Blocks can also be added as handlers to listen to an event. This is done is slightly different way than using a selector and uses a naming convention to organize the blocks. If you do not wish to ever change a block handler then you can simply pass 'nil' for the block name. Adding a block handler is similar to adding a selector handler.
 
-    [[class $eventName] addBlock:^{ } withName:name];
-    [[instance $eventName] addBlock:^{ } withName:name];
+    [[class $eventName] addBlock:^(AFFEvent *event){ } withName:name];
+    [[instance $eventName] addBlock:^(AFFEvent *event){ } withName:name];
 
 One time handlers are handlers that are only called once then destroyed from the event sender:
 
-    [[class $eventName] addBlockOneTime:^{ } withName:name];
-    [[instance $eventName] addBlockOneTime:^{ } withName:name];
+    [[class $eventName] addBlockOneTime:^(AFFEvent *event){ } withName:name];
+    [[instance $eventName] addBlockOneTime:^(AFFEvent *event){ } withName:name];
 
 ###Retrieving data from the event to the handler
 Retrieving data from an event is very similar to NSNotification usage. The selector for which an event is going to trigger can have multiple parameters. If the event being sent has no data and doesn't need any sender information, then the selector does not need to have an AFFEvent object parameter.
