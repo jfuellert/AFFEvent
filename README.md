@@ -1,13 +1,18 @@
 AFFEvent
 ========
-AFFEvent is an alternative event system built for iOS. The event system has an alterable event system that lets you add, remove, and modify events and / or handlers and blocks. It also allows for multiple parameter methods and blocks to be called upon an event being fired. 
+AFFEvent is an alternative event system built for iOS and OSX applications. The event system has an alterable event system that lets you add, remove, and modify events and / or handlers and blocks. It also allows for multiple parameter methods and blocks to be called upon an event being fired. 
 
 ##Purpose
 The purpose of this software is to give developers an alternative way to handle events in iOS. It's primary goal is to minimize delegation usage in areas where it should not necessarily be needed. By removing this need for delegation, classes have more control over events and can do unique things with them including firing an instance event of one class using a another class, using class events, or firing single time events.
 
 ##Support
+####IOS
 Earliest tested and supported build and deployment target - iOS 5.0.
 Latest tested and supported build and deployment target - iOS 7.0.
+
+####OSX
+Earliest tested and supported build and deployment target - OSX 10.6.
+Latest tested and supported build and deployment target - OSX 10.8.
 
 ##ARC Compatibility
 AFFEvent is built from non-ARC and is currently not ARC friendly. Use '-fno-objc-arc' compiler flags in your project's Build Phases for AFFEvent files when using ARC.
@@ -20,7 +25,7 @@ Add the current line to your <AppName>-Prefix.pch file :
 
 ##Event Usage
 ###About
-Events are handled through a central system, much like NSNotificationCenter. Events do not use a 'name' convention; instead they use an object's hash in combination with a unique method name from a class. You may, if needed, modify events through the global AFFEventSystemHandler class, but the recommended way to modify events would be through the event methods themselves.
+Events are handled through a central system, much like NSNotificationCenter. Events do not use a 'name' convention or delegation; instead they use an object's hash in combination with a unique method name from a class. You may, if needed, modify events through the global AFFEventSystemHandler class, but the recommended way to modify events would be through the event methods themselves.
 
 ###Event Levels
 There are two event levels available for AFFEvent. AFFEventInstance defines an instance event for it's class, only being accessible through an instance of that class. AFFEventClass defines a class event for it's class, which may be accessible from anywhere yet fired from any method type of that class.
@@ -194,6 +199,7 @@ Here is an example of basic usage of AFFEvents. An event is first created in the
     @end
 
 ##Changelog
+- August 5, 2013: Confirmed compatibility with MAC OSX 1.06 - 1.08. 
 - August 5, 2013: Released version 1.1.0. This release features newly added block support with functionality similar to that of selector handlers as well as bug fixes. 
 - August 4, 2013: Added the ability to use blocks instead of selectors when listening to an event. This will allow for more simplicity and flexibility.
 - July 31, 2013: Temporarily removed ARC support due to leaks (1.0.1).
