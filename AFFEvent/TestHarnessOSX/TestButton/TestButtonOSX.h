@@ -1,5 +1,5 @@
 //
-//  TestButton.h
+//  TestButtonOSX.h
 //  AFFEvent
 //
 //  Created by Jeremy Fuellert on 2013-08-05.
@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface TestButton : NSButton
+@interface TestButtonOSX : NSButton
 
 AFFEventCreate(AFFEventInstance, evtPressed);
 

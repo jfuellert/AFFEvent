@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 AFApps. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <UIKit/UIKit.h>
 
-@interface TestButton : NSButton
+@interface TestButton : UIButton
 
 AFFEventCreate(AFFEventInstance, evtPressed);
 

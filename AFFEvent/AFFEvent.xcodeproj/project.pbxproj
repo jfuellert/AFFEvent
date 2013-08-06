@@ -23,7 +23,7 @@
 		76499A4117B07C4700111705 /* AFFEventHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 765452EF179C4130003F40B3 /* AFFEventHandler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		76499A4217B07C4700111705 /* AFFEventSystemHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 765452F2179C4130003F40B3 /* AFFEventSystemHandler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		76499A4617B0809600111705 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76545316179C415D003F40B3 /* ViewController.m */; };
-		76499A4A17B0849100111705 /* TestButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 76499A4917B0849100111705 /* TestButton.m */; };
+		76499A4E17B08BD600111705 /* TestButtonOSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 76499A4D17B08BD600111705 /* TestButtonOSX.m */; };
 		765452FF179C415D003F40B3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 765452FE179C415D003F40B3 /* UIKit.framework */; };
 		76545300179C415D003F40B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 765452D7179C40DB003F40B3 /* Foundation.framework */; };
 		76545302179C415D003F40B3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76545301179C415D003F40B3 /* CoreGraphics.framework */; };
@@ -49,8 +49,8 @@
 		76499A3317B07C3200111705 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		76499A3517B07C3200111705 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		76499A3617B07C3200111705 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		76499A4817B0849100111705 /* TestButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestButton.h; path = TestButton/TestButton.h; sourceTree = "<group>"; };
-		76499A4917B0849100111705 /* TestButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestButton.m; path = TestButton/TestButton.m; sourceTree = "<group>"; };
+		76499A4C17B08BD600111705 /* TestButtonOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestButtonOSX.h; path = TestButton/TestButtonOSX.h; sourceTree = "<group>"; };
+		76499A4D17B08BD600111705 /* TestButtonOSX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestButtonOSX.m; path = TestButton/TestButtonOSX.m; sourceTree = "<group>"; };
 		765452D7179C40DB003F40B3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		765452E6179C4130003F40B3 /* AFFEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFFEvent.h; sourceTree = "<group>"; };
 		765452E7179C4130003F40B3 /* AFFEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFFEvent.m; sourceTree = "<group>"; };
@@ -139,8 +139,8 @@
 		76499A4717B0846B00111705 /* TestButton */ = {
 			isa = PBXGroup;
 			children = (
-				76499A4817B0849100111705 /* TestButton.h */,
-				76499A4917B0849100111705 /* TestButton.m */,
+				76499A4C17B08BD600111705 /* TestButtonOSX.h */,
+				76499A4D17B08BD600111705 /* TestButtonOSX.m */,
 			);
 			name = TestButton;
 			sourceTree = "<group>";
@@ -378,7 +378,7 @@
 				76499A4217B07C4700111705 /* AFFEventSystemHandler.m in Sources */,
 				76499A3017B07C3200111705 /* main.m in Sources */,
 				76499A3717B07C3200111705 /* AppDelegate.m in Sources */,
-				76499A4A17B0849100111705 /* TestButton.m in Sources */,
+				76499A4E17B08BD600111705 /* TestButtonOSX.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,12 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TestButton;
+@class TestButtonOSX;
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
     @private
-    TestButton *buttonOne;
+    TestButtonOSX *buttonOne;
+    TestButtonOSX *buttonTwo;
     NSTextField *outputLabel;
 }
 

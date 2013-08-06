@@ -1,14 +1,14 @@
 //
-//  TestButton.m
+//  TestButtonOSX.m
 //  AFFEvent
 //
 //  Created by Jeremy Fuellert on 2013-08-05.
 //  Copyright (c) 2013 AFApps. All rights reserved.
 //
 
-#import "TestButton.h"
+#import "TestButtonOSX.h"
 
-@implementation TestButton
+@implementation TestButtonOSX
 
 AFFEventSynthesize(AFFEventInstance, evtPressed);
 
@@ -17,7 +17,6 @@ AFFEventSynthesize(AFFEventInstance, evtPressed);
     self = [super initWithFrame:frameRect];
     if (self)
     {
-        [self setTitle: @"Press me"];
         [self setButtonType:NSMomentaryLightButton];
         [self setBezelStyle:NSRoundedBezelStyle];
         [self setTarget:self];

@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "TestButton.h"
+#import "TestButtonOSX.h"
 
 @implementation AppDelegate
 
@@ -39,19 +39,35 @@ const NSUInteger windowHeight = 300;
 
 - (void)createButtons
 {
-    NSInteger width = 130;
+    NSInteger width = 150;
     NSInteger height = 40;
     NSInteger x = (windowWidth - width) / 2;
     NSInteger y = (windowHeight - height) / 2;
     
-    buttonOne = [[TestButton alloc] initWithFrame:NSMakeRect(x, y, width, height)];
-    [[buttonOne evtPressed] addHandler:AFFHandler(@selector(onButtonPressed:))];
+    buttonOne = [[TestButtonOSX alloc] initWithFrame:NSMakeRect(x, y, width, height)];
+    [[buttonOne evtPressed] addHandler:AFFHandler(@selector(onButtonOnePressed:))];
+    buttonOne.title = @"Press for a number";
     [[self.window contentView] addSubview:buttonOne];
+    
+    buttonTwo = [[TestButtonOSX alloc] initWithFrame:NSMakeRect(x, buttonOne.frame.origin.y - buttonOne.frame.size.height, width, height)];
+    [[buttonTwo evtPressed] addHandler:AFFHandler(@selector(onButtonTwoPressed))];
+    buttonTwo.title = @"Press for a color";
+    [[self.window contentView] addSubview:buttonTwo];
 }
 
-- (void)onButtonPressed:(AFFEvent *)event
+- (void)onButtonOnePressed:(AFFEvent *)event
 {
     outputLabel.stringValue = [NSString stringWithFormat:@"%d", [event.data intValue]];
+}
+
+- (void)onButtonTwoPressed
+{
+    CGFloat hue = ( arc4random() % 256 / 256.0 );
+    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;
+    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;
+    NSColor *color = [NSColor colorWithCalibratedHue:hue saturation:saturation brightness:brightness alpha:1];
+    
+    outputLabel.textColor = color;
 }
 
 @end
