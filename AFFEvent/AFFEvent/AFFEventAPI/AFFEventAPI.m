@@ -96,7 +96,35 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
         _handlers = [NSMutableSet new];
     
     target = handler->observer;
-    handler.isOneTimeHandler = TRUE;
+    handler.type = kAFFHandlerTypeOneTime;
+    handler->sender = sender;
+    handler.eventNameWithHash = affCreateEventName(eventName, [(NSObject *)sender hash]);
+    [_handlers addObject:handler];
+    
+    return self;
+}
+
+- (id<AFFEventAPI>)addHandlerInBackgroundThread:(AFFEventHandler *)handler;
+{
+    if(!_handlers)
+        _handlers = [NSMutableSet new];
+    
+    target = handler->observer;
+    handler.type = kAFFHandlerTypeWillExecuteInBacground;
+    handler->sender = sender;
+    handler.eventNameWithHash = affCreateEventName(eventName, [(NSObject *)sender hash]);
+    [_handlers addObject:handler];
+    
+    return self;
+}
+
+- (id<AFFEventAPI>)addHandlerInBackgroundThreadOneTime:(AFFEventHandler *)handler
+{
+    if(!_handlers)
+        _handlers = [NSMutableSet new];
+    
+    target = handler->observer;
+    handler.type = kAFFHandlerTypeWillExecuteInBacground | kAFFHandlerTypeOneTime;
     handler->sender = sender;
     handler.eventNameWithHash = affCreateEventName(eventName, [(NSObject *)sender hash]);
     [_handlers addObject:handler];
@@ -132,7 +160,43 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
     AFFBlock *newBlock = [AFFBlock new];
     newBlock.blockName = name;
     newBlock.block = block;
-    newBlock.isOneTimeBlock = TRUE;
+    newBlock.type = kAFFBlockTypeOneTime;
+    
+    [_blocks addObject:newBlock];
+    
+    [newBlock release];
+    newBlock = nil;
+    
+    return self;
+}
+
+- (id<AFFEventAPI>)addBlockInBackgroundThread:(void (^)(AFFEvent *))block withName:(NSString *)name
+{
+    if(!_blocks)
+        _blocks = [NSMutableSet new];
+    
+    AFFBlock *newBlock = [AFFBlock new];
+    newBlock.blockName = name;
+    newBlock.block = block;
+    newBlock.type = kAFFBlockTypeWillExecuteInBacground;
+    
+    [_blocks addObject:newBlock];
+    
+    [newBlock release];
+    newBlock = nil;
+    
+    return self;
+}
+
+- (id<AFFEventAPI>)addBlockInBackgroundThreadOneTime:(void (^)(AFFEvent *))block withName:(NSString *)name
+{
+    if(!_blocks)
+        _blocks = [NSMutableSet new];
+    
+    AFFBlock *newBlock = [AFFBlock new];
+    newBlock.blockName = name;
+    newBlock.block = block;
+    newBlock.type = kAFFBlockTypeOneTime | kAFFBlockTypeWillExecuteInBacground;
     
     [_blocks addObject:newBlock];
     
@@ -162,7 +226,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 
 - (NSSet *)handlersForObserver:(id)observer
 {
-    NSMutableSet *returnHandlers = [NSMutableSet new];
+    NSMutableSet *returnHandlers = [[NSMutableSet alloc] initWithCapacity:_handlers.count];
     for(AFFEventHandler *handlerInSet in _handlers)
     {
         if([handlerInSet->observer isEqual:observer])
@@ -403,10 +467,8 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 
 - (void)removeHandlers:(NSSet *)handlerSet
 {
-    dispatch_async(affAPIDispatchQueue(), ^{
-        for(AFFEventHandler *handler in handlerSet)
-            [self removeHandler:handler];
-    });
+    for(AFFEventHandler *handler in handlerSet)
+        [self removeHandler:handler];
 }
 
 - (void)removeHandlers
@@ -416,7 +478,7 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 
 - (void)removeHandlersForObserver:(id)observer
 {    
-    NSMutableSet *removeableHandlers = [NSMutableSet new];
+    NSMutableSet *removeableHandlers = [[NSMutableSet alloc] initWithCapacity:_handlers.count];
     
     for(AFFEventHandler *handler in _handlers)
     {
@@ -424,10 +486,8 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
             [removeableHandlers addObject:handler];
     }
     
-    dispatch_async(affAPIDispatchQueue(), ^{
-        for(id handler in removeableHandlers)
-            [_handlers removeObject:handler];
-    });
+    for(id handler in removeableHandlers)
+        [_handlers removeObject:handler];
     
     [removeableHandlers release];
     removeableHandlers = nil;
@@ -450,10 +510,8 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
 
 - (void)removeBlocksByName:(NSSet *)blockNames
 {
-    dispatch_async(affAPIDispatchQueue(), ^{
-        for(NSString *blockName in blockNames)
-            [self removeBlockByName:blockName];
-    });
+    for(NSString *blockName in blockNames)
+        [self removeBlockByName:blockName];
 }
 
 - (void)removeBlocks
@@ -475,37 +533,52 @@ AFFEventAPI *affEventWithSender(id lsender, NSString *leventName)
     AFFEvent *event = affEventObjectWithSender(sender, data, eventName);
 
     //Blocks
-    NSMutableSet *oneTimeBlocks = [NSMutableSet new];
-    NSMutableSet *blocksCopy = [[NSMutableSet alloc] initWithSet:[self unlockedBlocks]];
+    NSSet *blocksCopy = [[NSSet alloc] initWithSet:[self unlockedBlocks]];
+    NSMutableSet *oneTimeBlocks = [[NSMutableSet alloc] initWithCapacity:blocksCopy.count];
+    
     for(AFFBlock *block in blocksCopy)
     {
-        block.block(event);
-        if(block.isOneTimeBlock)
+        if((block.type & kAFFBlockTypeWillExecuteInBacground))
+        {
+            dispatch_async(affAPIDispatchQueue(), ^{
+                block.block(event);
+            });
+        } else {
+            block.block(event);
+        }
+        
+        if((block.type & kAFFBlockTypeOneTime))
             [oneTimeBlocks addObject:block];
     }
     
     //Handlers
-    NSMutableSet *oneTimeHandlers = [NSMutableSet new];
-    NSMutableSet *handlersCopy = [[NSMutableSet alloc] initWithSet:[self unlockedHandlers]];
-    
+    NSSet *handlersCopy = [[NSSet alloc] initWithSet:[self unlockedHandlers]];
+    NSMutableSet *oneTimeHandlers = [[NSMutableSet alloc] initWithCapacity:handlersCopy.count];
+
     for(AFFEventHandler *handler in handlersCopy)
     {
         if([handler.eventNameWithHash isEqualToString:affCreateEventName(eventName, [(NSObject *)sender hash])])
         {
-            [handler invokeWithEvent:event];
-            if(handler.isOneTimeHandler)
+            if((handler.type & kAFFHandlerTypeWillExecuteInBacground))
+            {
+                dispatch_async(affAPIDispatchQueue(), ^{
+                    [handler invokeWithEvent:event];
+                });
+            } else {
+                [handler invokeWithEvent:event];
+            }
+            
+            if((handler.type & kAFFHandlerTypeOneTime))
                 [oneTimeHandlers addObject:handler];
         }
     }
     
     //Cleanup
-    dispatch_async(affAPIDispatchQueue(), ^{
-        for(id object in oneTimeHandlers)
-            [_handlers removeObject:object];
-        
-        for(id object in oneTimeBlocks)
-            [_blocks removeObject:object];
-    });
+    for(id object in oneTimeHandlers)
+        [_handlers removeObject:object];
+    
+    for(id object in oneTimeBlocks)
+        [_blocks removeObject:object];
     
     [blocksCopy release];
     blocksCopy = nil;

@@ -33,7 +33,6 @@
 
 @implementation AFFEventHandler
 @synthesize isLocked = _isLocked;
-@synthesize isOneTimeHandler = _isOneTimeHandler;
 @synthesize eventNameWithHash = _eventNameWithHash;
 
 AFFEventHandler *affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString *leventName, NSArray *largs)
@@ -52,7 +51,6 @@ AFFEventHandler *affCreateHandlerWithSender(id lsender, id lobserver, SEL lselec
         args = [[NSMutableArray alloc] initWithArray:largs];
         
         _isLocked = FALSE;
-        _isOneTimeHandler = FALSE;
     }
     return self;
 }
@@ -65,7 +63,9 @@ AFFEventHandler *affCreateHandlerWithSender(id lsender, id lobserver, SEL lselec
             @throw [NSException exceptionWithName:@"AFFEventInvalidSelectorException" reason:[NSString stringWithFormat:@"\nMethod '%@' was not recognized or does not exist in class '%@'.", NSStringFromSelector(selector), NSStringFromClass([observer class])] userInfo:nil];
         
         NSMethodSignature *signature = [observer methodSignatureForSelector:selector];
-        if(!signature) return;
+        
+        if(!signature)
+            return;
         
         NSUInteger signatureCount = [signature numberOfArguments];
         NSUInteger argumentCount = [args count];
@@ -151,7 +151,6 @@ AFFEventHandler *affCreateHandlerWithSender(id lsender, id lobserver, SEL lselec
         case 20:
             objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9], [args objectAtIndex:10], [args objectAtIndex:11], [args objectAtIndex:12], [args objectAtIndex:13], [args objectAtIndex:14], [args objectAtIndex:15], [args objectAtIndex:16], [args objectAtIndex:17], [args objectAtIndex:18], [args objectAtIndex:19]);
             break;
-            
         default:
             break;
     }

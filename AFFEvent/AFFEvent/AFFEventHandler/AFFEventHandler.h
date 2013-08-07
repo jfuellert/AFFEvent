@@ -29,6 +29,12 @@
 
 #import "AFFEvent.h"
 
+typedef NS_OPTIONS(NSUInteger, AFFHandlerType)
+{
+    kAFFHandlerTypeOneTime = 1 << 1,
+    kAFFHandlerTypeWillExecuteInBacground = 1 << 2
+};
+
 @interface AFFEventHandler : NSObject
 {
     @public
@@ -38,8 +44,8 @@
     NSMutableArray *args;
 }
 
+@property (nonatomic, assign) AFFHandlerType type;
 @property (nonatomic, assign) BOOL isLocked;
-@property (nonatomic, assign) BOOL isOneTimeHandler;
 @property (nonatomic, retain) NSString *eventNameWithHash;
 
 //Creation

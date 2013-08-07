@@ -36,10 +36,14 @@
 //Add handler handling
 - (id<AFFEventAPI>)addHandler:(AFFEventHandler *)handler;
 - (id<AFFEventAPI>)addHandlerOneTime:(AFFEventHandler *)handler;
+- (id<AFFEventAPI>)addHandlerInBackgroundThread:(AFFEventHandler *)handler;
+- (id<AFFEventAPI>)addHandlerInBackgroundThreadOneTime:(AFFEventHandler *)handler;
 
 //Add block handling
 - (id<AFFEventAPI>)addBlock:(void (^)(AFFEvent *event))block withName:(NSString *)name;
 - (id<AFFEventAPI>)addBlockOneTime:(void (^)(AFFEvent *event))block withName:(NSString *)name;
+- (id<AFFEventAPI>)addBlockInBackgroundThread:(void (^)(AFFEvent *event))block withName:(NSString *)name;
+- (id<AFFEventAPI>)addBlockInBackgroundThreadOneTime:(void (^)(AFFEvent *event))block withName:(NSString *)name;
 
 //Handler check methods
 - (BOOL)hasHandler:(AFFEventHandler *)handler;

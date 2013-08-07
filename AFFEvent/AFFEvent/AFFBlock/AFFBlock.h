@@ -1,6 +1,6 @@
 //
 //  AFFBlock.h
-//  AFFEvent
+//  AF Apps
 //
 //  Created by Jeremy Fuellert on 2013-08-03.
 //  Copyright (c) 2013 AFApps. All rights reserved.
@@ -31,10 +31,16 @@
 
 @class AFFEvent;
 
+typedef NS_OPTIONS(NSUInteger, AFFBlockType)
+{
+    kAFFBlockTypeOneTime = 1 << 1,
+    kAFFBlockTypeWillExecuteInBacground = 1 << 2
+};
+
 @interface AFFBlock : NSObject
 
+@property (nonatomic, assign) AFFBlockType type;
 @property (nonatomic, assign) BOOL isLocked;
-@property (nonatomic, assign) BOOL isOneTimeBlock;
 @property (nonatomic, retain) NSString *blockName;
 @property (nonatomic, copy) void(^block)(AFFEvent *event);
 

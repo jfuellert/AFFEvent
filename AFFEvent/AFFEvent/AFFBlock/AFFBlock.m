@@ -1,6 +1,6 @@
 //
 //  AFFBlock.m
-//  AFFEvent
+//  AF Apps
 //
 //  Created by Jeremy Fuellert on 2013-08-03.
 //  Copyright (c) 2013 AFApps. All rights reserved.
@@ -30,21 +30,10 @@
 #import "AFFBlock.h"
 
 @implementation AFFBlock
-@synthesize isLocked = _isLocked;
-@synthesize isOneTimeBlock = _isOneTimeBlock;
+@synthesize type;
+@synthesize isLocked;
 @synthesize blockName = _blockName;
-@synthesize block = _block;
-
-- (id)init
-{
-    self = [super init];
-    if(self)
-    {
-        _isLocked = FALSE;
-        _isOneTimeBlock = FALSE;
-    }
-    return self;
-}
+@synthesize block;
 
 - (void)dealloc
 {

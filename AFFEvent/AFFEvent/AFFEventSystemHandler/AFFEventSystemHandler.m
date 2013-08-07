@@ -57,7 +57,7 @@ AFFEventAPI *affEventForEventName(NSString *eventName, id sender)
 
     if(!senderDictionary)
     {
-        //Create a blank even
+        //Create a blank event
         apiObject = [affEventWithSender(sender, eventName) retain];
         
         //Create sender dictionary with event if no sender dictionary is found

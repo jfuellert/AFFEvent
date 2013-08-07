@@ -55,24 +55,31 @@
     
     //Handler testing
     [[buttonOne evtPressed] addHandler:AFFHandlerWithArgs(@selector(onButtonOnePressed:withSomething:andSomethingElse:), [NSNumber numberWithInt:99], [NSNumber numberWithInt:98])];
+    [[buttonOne evtPressed] addHandlerInBackgroundThreadOneTime:AFFHandler(@selector(runBackgroundSelector))];
 
     [[buttonTwo evtPressed] addHandler:AFFHandler(@selector(onButtonTwoPressed))];
     
     //Block testing
-    
-    //Block testing with block chaining (just for fun)
     [[buttonOne evtPressed] addBlock:^(AFFEvent *event) {
-        buttonOne.backgroundColor = [UIColor greenColor];
         NSLog(@"event.data : %d", [event.data integerValue]);
     } withName:@"blockName"];
     
-    
+    [[buttonOne evtPressed] addBlockInBackgroundThread:^(AFFEvent *event) {
+        for(NSUInteger i = 0; i <= 5000; i++)
+            NSLog(@"Background Block : %d / 5000", i);
+    } withName:@"counter"];
 }
 
 //Actions
 - (void)onButtonOnePressed:(AFFEvent *)event withSomething:(NSNumber *)something andSomethingElse:(NSNumber *)somethingElse
-{
+{   
     outputLabel.text = [NSString stringWithFormat:@"%d", [event.data intValue]];
+}
+
+- (void)runBackgroundSelector
+{
+    for(NSUInteger i = 0; i <= 5000; i++)
+        NSLog(@"Background Selector : %d / 5000", i);
 }
 
 - (void)onButtonTwoPressed
