@@ -126,6 +126,16 @@ One time handlers with arguments:
     [[class $eventName] addHandlerOneTime:AFFHandlerWithArgs(@selector(SEL:::::…), arg0, arg1, arg2, arg3…)];
     [[instance $eventName] addHandlerOneTime:AFFHandlerWithArgs(@selector(SEL:::::…), arg0, arg1, arg2, arg3…)];
 
+Background threaded handlers:
+
+    [[class $eventName] addHandlerInBackgroundThread:AFFHandler(@selector(SEL))];
+    [[instance $eventName] addHandlerInBackgroundThread:AFFHandler(@selector(SEL))];
+
+Background threaded handlers preformed only once:
+
+    [[class $eventName] addHandlerInBackgroundThreadOneTime:AFFHandler(@selector(SEL))];
+    [[instance $eventName] addHandlerInBackgroundThreadOneTime:AFFHandler(@selector(SEL))];
+
 Blocks can also be added as handlers to listen to an event. This is done is slightly different way than using a selector and uses a naming convention to organize the blocks. If you do not wish to ever change a block handler then you can simply pass 'nil' for the block name. Adding a block handler is similar to adding a selector handler.
 
     [[class $eventName] addBlock:^(AFFEvent *event){ } withName:name];
@@ -135,6 +145,16 @@ One time handlers are handlers that are only called once then destroyed from the
 
     [[class $eventName] addBlockOneTime:^(AFFEvent *event){ } withName:name];
     [[instance $eventName] addBlockOneTime:^(AFFEvent *event){ } withName:name];
+
+Background threaded handlers:
+
+    [[class $eventName] addBlockInBackgroundThread:^(AFFEvent *event){ } withName:name];
+    [[instance $eventName] addBlockInBackgroundThread:^(AFFEvent *event){ } withName:name];
+
+Background threaded handlers preformed only once:
+
+    [[class $eventName] addBlockInBackgroundThreadOneTime:^(AFFEvent *event){ } withName:name];
+    [[instance $eventName] addBlockInBackgroundThreadOneTime:^(AFFEvent *event){ } withName:name];
 
 ###Retrieving data from the event to the handler
 Retrieving data from an event is very similar to NSNotification usage. The selector for which an event is going to trigger can have multiple parameters. If the event being sent has no data and doesn't need any sender information, then the selector does not need to have an AFFEvent object parameter.
@@ -199,6 +219,7 @@ Here is an example of basic usage of AFFEvents. An event is first created in the
     @end
 
 ##Changelog
+- August 6, 2013: Released 1.3.0. This release features small additions to selector and block handlers by allowing execution in a background thread. 
 - August 5, 2013: Released 1.2.0. This is a small feature release to extend on block support. 
 - August 5, 2013: Confirmed compatibility with MAC OSX 1.06 - 1.08. 
 - August 5, 2013: Released version 1.1.0. This release features newly added block support with functionality similar to that of selector handlers as well as bug fixes. 
