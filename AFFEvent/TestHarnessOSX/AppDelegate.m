@@ -45,19 +45,33 @@ const NSUInteger windowHeight = 300;
     NSInteger y = (windowHeight - height) / 2;
     
     buttonOne = [[TestButtonOSX alloc] initWithFrame:NSMakeRect(x, y, width, height)];
-    [[buttonOne evtPressed] addHandler:AFFHandler(@selector(onButtonOnePressed:))];
     buttonOne.title = @"Press for a number";
     [[self.window contentView] addSubview:buttonOne];
     
+    [[buttonOne evtPressed] addHandler:AFFHandler(@selector(onButtonOnePressed:))];
+    [[buttonOne evtPressed] addBlockInBackgroundThread:^(AFFEvent *event) {
+        for(NSUInteger i = 0; i <= 5000; i++)
+            NSLog(@"Background Block : %ld / 5000", (unsigned long)i);
+    } withName:@"counter"];
+    [[buttonOne evtPressed] addHandlerInBackgroundThreadOneTime:AFFHandler(@selector(runBackgroundSelector))];
+    
     buttonTwo = [[TestButtonOSX alloc] initWithFrame:NSMakeRect(x, buttonOne.frame.origin.y - buttonOne.frame.size.height, width, height)];
-    [[buttonTwo evtPressed] addHandler:AFFHandler(@selector(onButtonTwoPressed))];
     buttonTwo.title = @"Press for a color";
     [[self.window contentView] addSubview:buttonTwo];
+    
+    [[buttonTwo evtPressed] addHandler:AFFHandler(@selector(onButtonTwoPressed))];
+
 }
 
 - (void)onButtonOnePressed:(AFFEvent *)event
 {
     outputLabel.stringValue = [NSString stringWithFormat:@"%d", [event.data intValue]];
+}
+
+- (void)runBackgroundSelector
+{
+    for(NSUInteger i = 0; i <= 5000; i++)
+        NSLog(@"Background Selector : %ld / 5000", (unsigned long)i);
 }
 
 - (void)onButtonTwoPressed
