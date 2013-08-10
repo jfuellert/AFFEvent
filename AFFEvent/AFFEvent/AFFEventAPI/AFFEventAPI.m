@@ -49,7 +49,7 @@ dispatch_queue_t affAPIDispatchQueue(void)
     static dispatch_queue_t affAPIDispatchQueue = nil;
     
     dispatch_once(&affAPIDispatchQueuePred, ^{
-        affAPIDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+        affAPIDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     });
     
     return affAPIDispatchQueue;
