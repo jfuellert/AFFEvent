@@ -258,6 +258,7 @@ Here is an example of basic usage of AFFEvents. An event is first created in the
 ``` 
 
 ##Changelog
+- August 9, 2013: Released 1.3.1. This is a minor patch which changes the default background thread queue priority for handlers.
 - August 6, 2013: Released 1.3.0. This release features small additions to selector and block handlers by allowing execution in a background thread. 
 - August 5, 2013: Released 1.2.0. This is a small feature release to extend on block support. 
 - August 5, 2013: Confirmed compatibility with MAC OSX 1.06 - 1.08. 
