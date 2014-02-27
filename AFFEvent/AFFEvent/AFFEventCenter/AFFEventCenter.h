@@ -27,9 +27,10 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "AFFEvent.h"
 #import "AFFEventAPI.h"
 #import "AFFEventSystemHandler.h"
+
+#ifndef AFFEventClass
 
 #define AFFEventClass       +
 #define AFFEventInstance    -
@@ -38,22 +39,23 @@
 $eventLevel (AFFEventAPI *)$eventName
 
 #define AFFEventSynthesize( $eventLevel, $eventName )                                               \
-$eventLevel (AFFEventAPI *)$eventName                                                               \
-{                                                                                                   \
-    return affEventForEventName(@#$eventName, self);                                                \
+$eventLevel (AFFEventAPI *)$eventName {                                                             \
+    return __affEventForEventName(@#$eventName, self);                                              \
 }
 
 #define AFFRemoveAllEvents()                                                                        \
-    affRemoveAllEventsFromSenderHash([(NSObject *)self hash])
+    __affRemoveAllEventsFromSenderHash([(NSObject *)self hash])
 
 #define AFFRemoveEvent( $eventName )                                                                \
-    affRemoveEventNamed(@#$eventName, [(NSObject *)self hash])
+    __affRemoveEventNamed(@#$eventName, [(NSObject *)self hash])
 
 #define AFFHandler( $selector )                                                                     \
-    affCreateHandlerWithSender(nil, self, $selector, nil, nil)
+    [AFFEventHandler eventHandlerWithSender:nil observer:self selector:$selector name:nil args:nil]
 
 #define AFFHandlerWithArgs( $selector, ... )                                                        \
-    affCreateHandlerWithSender(nil, self, $selector, nil, [NSArray arrayWithObjects:__VA_ARGS__,nil])
+    [AFFEventHandler eventHandlerWithSender:nil observer:self selector:$selector name:nil args:@[__VA_ARGS__]]
 
 #define AFFEvents()                                                                                 \
-    affEventsFromSenderHash([(NSObject *)self hash])
+    __affEventsFromSenderHash([(NSObject *)self hash])
+
+#endif

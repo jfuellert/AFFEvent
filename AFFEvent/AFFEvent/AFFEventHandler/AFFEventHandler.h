@@ -27,29 +27,36 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "AFFEvent.h"
+#import "AFFEventStatics.h"
 
-typedef NS_OPTIONS(NSUInteger, AFFHandlerType)
-{
-    kAFFHandlerTypeOneTime = 1 << 1,
-    kAFFHandlerTypeWillExecuteInBacground = 1 << 2
-};
+@class AFFEvent;
 
+/** AFFEventHandler is a class used for sending an event from one object to another. */
 @interface AFFEventHandler : NSObject
-{
-    @public
-    NSObject *sender;
-    NSObject *observer;
-    SEL selector;
-    NSMutableArray *args;
-}
 
-@property (nonatomic, assign) AFFHandlerType type;
-@property (nonatomic, assign) BOOL isLocked;
+/** The sender of the event. */
+@property (nonatomic, assign) NSObject *sender;
+
+/** The observer of the event. */
+@property (nonatomic, assign) NSObject *observer;
+
+/** The selector that the event will be sent to. */
+@property (nonatomic, assign) SEL selector;
+
+/** Arguments that are passed to the selector. */
+@property (nonatomic, retain) NSMutableArray *args;
+
+/** A bitewise mask of handler execution characteristics. */
+@property (nonatomic, assign) AFFEventType type;
+
+/** A BOOL determining if the block is locked. If |isLocked| is 'YES' then it will not execute it's handler. */
+@property (nonatomic, assign, setter = setLocked:) BOOL isLocked;
+
+/** The name of the event. */
 @property (nonatomic, retain) NSString *eventNameWithHash;
 
-//Creation
-AFFEventHandler *affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString *leventName, NSArray *largs);
+/** Returns an AFFEventHandler. */
++ (AFFEventHandler *)eventHandlerWithSender:(id)sender observer:(id)observer selector:(SEL)selector name:(NSString *)name args:(NSArray *)args;
 
 - (void)invokeWithEvent:(AFFEvent *)event;
 

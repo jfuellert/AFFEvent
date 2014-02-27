@@ -30,23 +30,20 @@
 #import "AFFEvent.h"
 
 @implementation AFFEvent
-@synthesize sender = _sender;
-@synthesize data = _data;
-@synthesize eventName = _eventName;
 
-AFFEvent *affEventObjectWithSender(id lsender, id ldata, NSString *leventName)
-{
-    return [[[AFFEvent alloc] initWithSender:lsender andData:ldata andEventName:leventName] autorelease];
+#pragma mark - Init
++ (AFFEvent *)eventWithSender:(id)sender data:(id)data name:(NSString *)name {
+    
+    return [[[AFFEvent alloc] initWithSender:sender data:data name:name] autorelease];
 }
 
-- (id)initWithSender:(id)lsender andData:(id)ldata andEventName:(NSString *)leventName
-{
+- (id)initWithSender:(id)sender data:(id)data name:(NSString *)name {
+    
     self = [super init];
-    if(self)
-    {
-        _sender = lsender;
-        _data = ldata;
-        _eventName = leventName;
+    if(self) {
+        _sender     = sender;
+        _data       = data;
+        _eventName  = name;
     }
     return self;
 }

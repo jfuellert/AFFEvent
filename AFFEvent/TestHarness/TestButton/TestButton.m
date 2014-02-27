@@ -12,23 +12,22 @@
 
 AFFEventSynthesize(AFFEventInstance, evtPressed);
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
+    
     self = [super initWithFrame:frame];
-    if (self)
-    {
+    if (self) {
         [self addTarget:self action:@selector(onPress) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
 
-- (void)onPress
-{    
-    [[self evtPressed] send:[NSNumber numberWithInt:arc4random() % 100 + 1]];
+- (void)onPress {
+    
+    [[self evtPressed] send:@(arc4random() % 100 + 1)];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
+    
     AFFRemoveAllEvents();
 }
 

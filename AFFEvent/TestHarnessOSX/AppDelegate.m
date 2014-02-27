@@ -16,7 +16,7 @@ const NSUInteger windowHeight = 300;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    self.window = [[NSWindow alloc] initWithContentRect:NSMakeRect(100, 100, windowWidth, windowHeight) styleMask:NSTitledWindowMask | NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:FALSE];
+    self.window = [[NSWindow alloc] initWithContentRect:NSMakeRect(100, 100, windowWidth, windowHeight) styleMask:NSTitledWindowMask | NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     self.window.backgroundColor = [NSColor whiteColor];
     [self.window makeKeyAndOrderFront:NSApp];
     
@@ -29,10 +29,10 @@ const NSUInteger windowHeight = 300;
     outputLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(0, windowHeight - 140, windowWidth, 80)];
     outputLabel.backgroundColor = [NSColor clearColor];
     outputLabel.textColor = [NSColor darkGrayColor];
-    [outputLabel setBezeled:FALSE];
-    [outputLabel setDrawsBackground:FALSE];
-    [outputLabel setEditable:TRUE];
-    [outputLabel setSelectable:FALSE];
+    [outputLabel setBezeled:NO];
+    [outputLabel setDrawsBackground:NO];
+    [outputLabel setEditable:YES];
+    [outputLabel setSelectable:NO];
     outputLabel.alignment = kCTTextAlignmentCenter;
     [[self.window contentView] addSubview:outputLabel];
 }

@@ -29,12 +29,19 @@
 
 #import <Foundation/Foundation.h>
 
+/** AFFEvent is a class used for event data. It is used as a container for sending an event from one destination to another. */
 @interface AFFEvent : NSObject
 
+/** The sender of the event. This returns the class and/or instance that sent the event. */
 @property (nonatomic, readonly) id sender;
+
+/** The data of the event. This is data that is sent from the sender to the receiver. */
 @property (nonatomic, readonly) id data;
+
+/** The name of the event. */
 @property (nonatomic, readonly) NSString *eventName;
 
-AFFEvent *affEventObjectWithSender(id lsender, id ldata, NSString *leventName);
+/** Returns an event object. */
++ (AFFEvent *)eventWithSender:(id)sender data:(id)data name:(NSString *)name;
 
 @end

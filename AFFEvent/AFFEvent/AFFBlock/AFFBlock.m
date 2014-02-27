@@ -30,15 +30,14 @@
 #import "AFFBlock.h"
 
 @implementation AFFBlock
-@synthesize type;
-@synthesize isLocked;
-@synthesize blockName = _blockName;
-@synthesize block;
 
-- (void)dealloc
-{
-    if(_blockName)
+#pragma mark - Dealloc
+- (void)dealloc {
+    
+    if(_blockName) {
         [_blockName release];
+    }
+    
     _blockName = nil;
     
     [super dealloc];

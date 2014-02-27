@@ -31,15 +31,16 @@
 
 @class AFFEventAPI;
 
+/** AFFEventSystemHandler is a class used for indexing AFFEventAPI items */
 @interface AFFEventSystemHandler : NSObject
 
-AFFEventAPI *affEventForEventName(NSString *eventName, id sender);
+AFFEventAPI *__affEventForEventName(NSString *eventName, id sender);
 
-NSArray *affEventsFromSenderHash(NSUInteger senderHash);
+NSArray *__affEventsFromSenderHash(NSUInteger senderHash);
 
-void affRemoveEventNamed(NSString *eventName, NSUInteger senderHash);
-void affRemoveAllEventsFromSenderHash(NSUInteger senderHash);
+void __affRemoveEventNamed(NSString *eventName, NSUInteger senderHash);
+void __affRemoveAllEventsFromSenderHash(NSUInteger senderHash);
 
-NSString *affCreateEventName(NSString *eventName, NSUInteger hash);
+NSString *__affCreateEventName(NSString *eventName, NSUInteger hash);
 
 @end

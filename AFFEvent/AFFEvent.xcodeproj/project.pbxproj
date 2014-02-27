@@ -79,6 +79,7 @@
 		76545394179C6B8B003F40B3 /* TestButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestButton.m; path = TestButton/TestButton.m; sourceTree = "<group>"; };
 		769CE0EF17ADFA4000AFDA68 /* AFFBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFFBlock.h; path = AFFBlock/AFFBlock.h; sourceTree = "<group>"; };
 		769CE0F017ADFA4000AFDA68 /* AFFBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFFBlock.m; path = AFFBlock/AFFBlock.m; sourceTree = "<group>"; };
+		76BCFB9D18BC620B005ED403 /* AFFEventStatics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFFEventStatics.h; path = AFFEventStatics/AFFEventStatics.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +186,7 @@
 				765452E8179C4130003F40B3 /* AFFEventAPI */,
 				765452EB179C4130003F40B3 /* AFFEventCenter */,
 				765452ED179C4130003F40B3 /* AFFEventHandler */,
+				76BCFB9C18BC61E5005ED403 /* AFFEventStatics */,
 				765452F0179C4130003F40B3 /* AFFEventSystemHandler */,
 			);
 			path = AFFEvent;
@@ -279,6 +281,14 @@
 			name = AFFBlock;
 			sourceTree = "<group>";
 		};
+		76BCFB9C18BC61E5005ED403 /* AFFEventStatics */ = {
+			isa = PBXGroup;
+			children = (
+				76BCFB9D18BC620B005ED403 /* AFFEventStatics.h */,
+			);
+			name = AFFEventStatics;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -322,7 +332,7 @@
 		765452CC179C40DB003F40B3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = AFApps;
 			};
 			buildConfigurationList = 765452CF179C40DB003F40B3 /* Build configuration list for PBXProject "AFFEvent" */;
@@ -431,7 +441,6 @@
 		76499A3C17B07C3200111705 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -453,7 +462,6 @@
 		76499A3D17B07C3200111705 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -567,6 +575,7 @@
 				76499A3D17B07C3200111705 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		765452CF179C40DB003F40B3 /* Build configuration list for PBXProject "AFFEvent" */ = {
 			isa = XCConfigurationList;

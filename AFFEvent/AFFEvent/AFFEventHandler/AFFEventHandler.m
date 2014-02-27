@@ -27,163 +27,165 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#import "AFFEvent.h"
 #import "AFFEventHandler.h"
-#include <objc/runtime.h>
 #include <objc/message.h>
 
-@implementation AFFEventHandler
-@synthesize isLocked = _isLocked;
-@synthesize eventNameWithHash = _eventNameWithHash;
+const NSUInteger kAFFEventHandlerMethodHiddenArgsCount = 2;
 
-AFFEventHandler *affCreateHandlerWithSender(id lsender, id lobserver, SEL lselector,  NSString *leventName, NSArray *largs)
-{
-    return [[[AFFEventHandler alloc] initWithSender:lsender andObserver:lobserver andSelector:lselector andEventName:leventName andArgs:largs] autorelease];
+@implementation AFFEventHandler
+
++ (AFFEventHandler *)eventHandlerWithSender:(id)sender observer:(id)observer selector:(SEL)selector name:(NSString *)name args:(NSArray *)args {
+
+    return [[[AFFEventHandler alloc] initWithSender:sender observer:observer selector:selector name:name args:args] autorelease];
 }
 
-- (id)initWithSender:(NSObject *)lsender andObserver:(NSObject *)lobserver andSelector:(SEL)lselector andEventName:(NSString *)leventName andArgs:(NSArray *)largs
-{
+- (id)initWithSender:(id)sender observer:(id)observer selector:(SEL)selector name:(NSString *)name args:(NSArray *)args {
+    
     self = [super init];
-    if(self)
-    {        
-        sender = lsender;
-        observer = lobserver;
-        selector = lselector;
-        args = [[NSMutableArray alloc] initWithArray:largs];
-        
-        _isLocked = FALSE;
+    if(self) {
+        _sender     = sender;
+        _observer   = observer;
+        _selector   = selector;
+        _args       = [[NSMutableArray alloc] initWithArray:args];
+        _isLocked   = NO;
     }
     return self;
 }
 
-- (void)invokeWithEvent:(AFFEvent *)event
-{
-    if(observer && selector)
-    {
-        if(![observer respondsToSelector:selector])
-            @throw [NSException exceptionWithName:@"AFFEventInvalidSelectorException" reason:[NSString stringWithFormat:@"\nMethod '%@' was not recognized or does not exist in class '%@'.", NSStringFromSelector(selector), NSStringFromClass([observer class])] userInfo:nil];
+- (void)invokeWithEvent:(AFFEvent *)event {
+    
+    if(_observer && _selector) {
         
-        NSMethodSignature *signature = [observer methodSignatureForSelector:selector];
+        if(![_observer respondsToSelector:_selector]) {
+            @throw [NSException exceptionWithName:@"AFFEventInvalidSelectorException" reason:[NSString stringWithFormat:@"\nMethod '%@' was not recognized or does not exist in class '%@'.", NSStringFromSelector(_selector), NSStringFromClass([_observer class])] userInfo:nil];
+        }
         
-        if(!signature)
+        NSMethodSignature *signature = [_observer methodSignatureForSelector:_selector];
+        
+        if(!signature) {
             return;
+        }
         
         NSUInteger signatureCount = [signature numberOfArguments];
-        NSUInteger argumentCount = [args count];
+        NSUInteger argumentCount = [_args count];
         
         //Two arguments are hidden defaults. Check for correct number of arguments
-        if(signatureCount - argumentCount < 2)
-            @throw [NSException exceptionWithName:@"AFFEventHandlerInvalidArgumentCount" reason: [NSString stringWithFormat:@"\nMethod '%@' of class '%@' has an incorrect number of arguments. There was %d needed and %d was given.", NSStringFromSelector(selector), NSStringFromClass([observer class]), signatureCount - 2, argumentCount]  userInfo:nil];
+        if(signatureCount - argumentCount < kAFFEventHandlerMethodHiddenArgsCount) {
+            @throw [NSException exceptionWithName:@"AFFEventHandlerInvalidArgumentCount" reason: [NSString stringWithFormat:@"\nMethod '%@' of class '%@' has an incorrect number of arguments. There was %d needed and %d was given.", NSStringFromSelector(_selector), NSStringFromClass([_observer class]), signatureCount - kAFFEventHandlerMethodHiddenArgsCount, argumentCount]  userInfo:nil];
+        }
         
-        if([signature numberOfArguments] > 2)
+        if([signature numberOfArguments] > kAFFEventHandlerMethodHiddenArgsCount) {
             [self setEventObject:event];
+        }
         
         [self setupArgsWithMsgSend];
     }
 }
 
-- (void)setupArgsWithMsgSend
-{
-    if(!observer)
-        @throw [NSException exceptionWithName:@"AFFEventInvalidObserverException" reason:[NSString stringWithFormat:@"\nMethod '%@' was sent to the deallocated observer class '%@'.", NSStringFromSelector(selector), NSStringFromClass([observer class])] userInfo:nil];
+- (void)setupArgsWithMsgSend {
     
-    switch (args.count)
-    {
+    if(!_observer) {
+        @throw [NSException exceptionWithName:@"AFFEventInvalidObserverException" reason:[NSString stringWithFormat:@"\nMethod '%@' was sent to the deallocated observer class '%@'.", NSStringFromSelector(_selector), NSStringFromClass([_observer class])] userInfo:nil];
+    }
+    
+    switch(_args.count) {
         case 0:
-            objc_msgSend(observer, selector);
+            objc_msgSend(_observer, _selector);
             break;
         case 1:
-            objc_msgSend(observer, selector, [args objectAtIndex:0]);
+            objc_msgSend(_observer, _selector, _args[0]);
             break;
         case 2:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1]);
             break;
         case 3:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2]);
             break;
         case 4:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3]);
             break;
         case 5:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4]);
             break;
         case 6:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5]);
             break;
         case 7:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6]);
             break;
         case 8:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7]);
             break;
         case 9:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8]);
             break;
         case 10:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8], _args[9]);
             break;
         case 11:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9], [args objectAtIndex:10]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8], _args[9], _args[10]);
             break;
         case 12:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9], [args objectAtIndex:10], [args objectAtIndex:11]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8], _args[9], _args[10], _args[11]);
             break;
         case 13:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9], [args objectAtIndex:10], [args objectAtIndex:11], [args objectAtIndex:12]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8], _args[9], _args[10], _args[11], _args[12]);
             break;
         case 14:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9], [args objectAtIndex:10], [args objectAtIndex:11], [args objectAtIndex:12], [args objectAtIndex:13]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8], _args[9], _args[10], _args[11], _args[12], _args[13]);
             break;
         case 15:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9], [args objectAtIndex:10], [args objectAtIndex:11], [args objectAtIndex:12], [args objectAtIndex:13], [args objectAtIndex:14]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8], _args[9], _args[10], _args[11], _args[12], _args[13], _args[14]);
             break;
         case 16:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9], [args objectAtIndex:10], [args objectAtIndex:11], [args objectAtIndex:12], [args objectAtIndex:13], [args objectAtIndex:14], [args objectAtIndex:15]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8], _args[9], _args[10], _args[11], _args[12], _args[13], _args[14], _args[15]);
             break;
         case 17:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9], [args objectAtIndex:10], [args objectAtIndex:11], [args objectAtIndex:12], [args objectAtIndex:13], [args objectAtIndex:14], [args objectAtIndex:15], [args objectAtIndex:16]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8], _args[9], _args[10], _args[11], _args[12], _args[13], _args[14], _args[15], _args[16]);
             break;
         case 18:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9], [args objectAtIndex:10], [args objectAtIndex:11], [args objectAtIndex:12], [args objectAtIndex:13], [args objectAtIndex:14], [args objectAtIndex:15], [args objectAtIndex:16], [args objectAtIndex:17]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8], _args[9], _args[10], _args[11], _args[12], _args[13], _args[14], _args[15], _args[16], _args[17]);
             break;
         case 19:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9], [args objectAtIndex:10], [args objectAtIndex:11], [args objectAtIndex:12], [args objectAtIndex:13], [args objectAtIndex:14], [args objectAtIndex:15], [args objectAtIndex:16], [args objectAtIndex:17], [args objectAtIndex:18]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8], _args[9], _args[10], _args[11], _args[12], _args[13], _args[14], _args[15], _args[16], _args[17], _args[18]);
             break;
         case 20:
-            objc_msgSend(observer, selector, [args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2], [args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5], [args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8], [args objectAtIndex:9], [args objectAtIndex:10], [args objectAtIndex:11], [args objectAtIndex:12], [args objectAtIndex:13], [args objectAtIndex:14], [args objectAtIndex:15], [args objectAtIndex:16], [args objectAtIndex:17], [args objectAtIndex:18], [args objectAtIndex:19]);
+            objc_msgSend(_observer, _selector, _args[0], _args[1], _args[2], _args[3], _args[4], _args[5], _args[6], _args[7], _args[8], _args[9], _args[10], _args[11], _args[12], _args[13], _args[14], _args[15], _args[16], _args[17], _args[18], _args[19]);
             break;
         default:
             break;
     }
 }
 
-- (void)setEventObject:(AFFEvent *)event
-{
-    if(args.count > 0)
-    {
-        if([[args objectAtIndex:0] isKindOfClass:[AFFEvent class]])
-        {
-            if([args objectAtIndex:0] != event)
-            {
-                [args removeObjectAtIndex:0];
-                [args insertObject:event atIndex:0];
+- (void)setEventObject:(AFFEvent *)event {
+    
+    if(_args.count > 0) {
+        
+        if([[_args firstObject] isKindOfClass:[AFFEvent class]]) {
+            
+            if([_args firstObject] != event) {
+                
+                [_args removeObjectAtIndex:0];
+                [_args insertObject:event atIndex:0];
             }
         } else {
-            [args insertObject:event atIndex:0];
+            [_args insertObject:event atIndex:0];
         }
     } else {
-        [args insertObject:event atIndex:0];
+        [_args insertObject:event atIndex:0];
     }
 }
 
-- (void)dealloc
-{
-    sender = nil;
-    observer = nil;
-    selector = nil;
+- (void)dealloc {
+    
+    _sender = nil;
+    _observer = nil;
+    _selector = nil;
     [_eventNameWithHash release];
     _eventNameWithHash = nil;
-    [args release];
-    args = nil;
+    [_args release];
+    _args = nil;
     
     [super dealloc];
 }

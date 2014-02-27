@@ -29,78 +29,152 @@
 
 #import "AFFEvent.h"
 #import "AFFEventHandler.h"
-#import "AFFEventSystemHandler.h"
 
-@protocol AFFEventAPI
+typedef void(^AFFBlockEvent)(AFFEvent *event);
 
-//Add handler handling
-- (id<AFFEventAPI>)addHandler:(AFFEventHandler *)handler;
-- (id<AFFEventAPI>)addHandlerOneTime:(AFFEventHandler *)handler;
-- (id<AFFEventAPI>)addHandlerInBackgroundThread:(AFFEventHandler *)handler;
-- (id<AFFEventAPI>)addHandlerInBackgroundThreadOneTime:(AFFEventHandler *)handler;
+@protocol AFFEventAPIDelegate
 
-//Add block handling
-- (id<AFFEventAPI>)addBlock:(void (^)(AFFEvent *event))block withName:(NSString *)name;
-- (id<AFFEventAPI>)addBlockOneTime:(void (^)(AFFEvent *event))block withName:(NSString *)name;
-- (id<AFFEventAPI>)addBlockInBackgroundThread:(void (^)(AFFEvent *event))block withName:(NSString *)name;
-- (id<AFFEventAPI>)addBlockInBackgroundThreadOneTime:(void (^)(AFFEvent *event))block withName:(NSString *)name;
+#pragma mark - Add handler handling
+/** Attaches a handler to an event. */
+- (id<AFFEventAPIDelegate>)addHandler:(AFFEventHandler *)handler;
 
-//Handler check methods
+/** Attaches a handler to an event that will only fire once. */
+- (id<AFFEventAPIDelegate>)addHandlerOneTime:(AFFEventHandler *)handler;
+
+/** Attaches a handler to an event that will run in a background thread. */
+- (id<AFFEventAPIDelegate>)addHandlerInBackgroundThread:(AFFEventHandler *)handler;
+
+/** Attaches a handler to an event that will only fire once and run in a background thread. */
+- (id<AFFEventAPIDelegate>)addHandlerInBackgroundThreadOneTime:(AFFEventHandler *)handler;
+
+#pragma mark - Add block handling
+/** Attaches a block to an event. */
+- (id<AFFEventAPIDelegate>)addBlock:(AFFBlockEvent)block name:(NSString *)name;
+
+/** Attaches a block to an event that will only fire once. */
+- (id<AFFEventAPIDelegate>)addBlockOneTime:(AFFBlockEvent)block name:(NSString *)name;
+
+/** Attaches a block to an event that will run in a background thread. */
+- (id<AFFEventAPIDelegate>)addBlockInBackgroundThread:(AFFBlockEvent)block name:(NSString *)name;
+
+/** Attaches a block to an event that will only fire once and run in a background thread. */
+- (id<AFFEventAPIDelegate>)addBlockInBackgroundThreadOneTime:(AFFBlockEvent)block name:(NSString *)name;
+
+#pragma mark - Handler check methods
+/** Returns a BOOL whether or not an event api contains a handler. */
 - (BOOL)hasHandler:(AFFEventHandler *)handler;
+
+/** Returns all of the handlers for the event api. */
 - (NSSet *)handlers;
+
+/** Returns all of the handlers for the event api for a specific observer. */
 - (NSSet *)handlersForObserver:(id)observer;
 
-//Block check methods
+#pragma mark - Block check methods
+/** Returns a BOOL whether or not an event api contains a block. */
 - (BOOL)hasBlock:(NSString *)blockName;
 
-//Handler lock methods
+#pragma mark - Handler lock methods
+/** Locks a handler. This prevents the handler from being fired when the event is triggered. */
 - (void)lockHandler:(AFFEventHandler *)handler;
+
+/** Unocks a handler. This allows the handler to be fired when the event is triggered. */
 - (void)unlockHandler:(AFFEventHandler *)handler;
+
+/** Locks a set of handlers. This prevents the selected handlers from being fired when the event is triggered. */
 - (void)lockHandlers:(NSSet *)handlers;
+
+/** Unlocks a set of handlers. This allows the selected handlers to be fired when the event is triggered. */
 - (void)unlockHandlers:(NSSet *)handlers;
+
+/** Locks all of the event api handlers. */
 - (void)lockHandlers;
+
+/** Unlocks all of the event api handlers. */
 - (void)unlockHandlers;
+
+/** Returns the locked handlers for the event api. */
 - (NSSet *)lockedHandlers;
+
+/** Returns the unlocked handlers for the event api. */
 - (NSSet *)unlockedHandlers;
+
+/** Returns a BOOL whether or not a handler is locked. */
 - (BOOL)isHandlerLocked:(AFFEventHandler *)handler;
 
-//Block lock methods
+#pragma mark - Block lock methods
+/** Locks a block. This prevents the block from being fired when the event is triggered. */
 - (void)lockBlockByName:(NSString *)blockName;
+
+/** Unocks a block. This allows the block to be fired when the event is triggered. */
 - (void)unlockBlockByName:(NSString *)blockName;
+
+/** Locks a set of blocks. This prevents the selected blocks from being fired when the event is triggered. */
 - (void)lockBlocksByNames:(NSSet *)blockNames;
+
+/** Unlocks a set of blocks. This allows the selected blocks to be fired when the event is triggered. */
 - (void)unlockBlocksByNames:(NSSet *)blockNames;
+
+/** Locks all of the event api blocks. */
 - (void)lockBlocks;
+
+/** Unlocks all of the event api blocks. */
 - (void)unlockBlocks;
+
+/** Returns the locked blocks for the event api. */
 - (NSSet *)lockedBlocks;
+
+/** Returns the unlocked blocks for the event api. */
 - (NSSet *)unlockedBlocks;
+
+/** Returns a BOOL whether or not a block is locked. */
 - (BOOL)isBlockLocked:(NSString *)blockName;
 
-//Handler removal handling
+#pragma mark - Handler removal handling
+/** Removes a handler from the event api. */
 - (void)removeHandler:(AFFEventHandler *)handler;
+
+/** Removes a set of handlers from the event api. */
 - (void)removeHandlers:(NSSet *)handlerSet;
+
+/** Removes a set of handlers from the event api for a specific observer. */
 - (void)removeHandlersForObserver:(id)observer;
+
+/** Removes all handlers from the event api. */
 - (void)removeHandlers;
 
-//Block removal handling
+#pragma mark - Block removal handling
+/** Removes a block from the event api. */
 - (void)removeBlockByName:(NSString *)blockName;
+
+/** Removes a set of blocks from the event api. */
 - (void)removeBlocksByName:(NSSet *)blockNames;
+
+/** Removes all blocks from the event api. */
 - (void)removeBlocks;
 
-//Sending event and data handling
+#pragma mark - Sending event and data handling
+/** Sends an event. This will trigger any attached handlers or blocks if they are enabled. */
 - (void)send;
+
+/** Sends an event with data. This will trigger any attached handlers or blocks if they are enabled. */
 - (void)send:(id)data;
 
 @end
 
-@interface AFFEventAPI : NSObject<AFFEventAPI>
-{
-    @public
-    id sender;
-    id target;
-    NSString *eventName;
-}
+/** AFFEventAPI is an event object that allows objects to pass messages, with or without data, between eachother. */
+@interface AFFEventAPI : NSObject<AFFEventAPIDelegate>
 
-//Creation
-AFFEventAPI *affEventWithSender(id lsender, NSString *leventName);
+/** The object that is sending the event. */
+@property (nonatomic, assign, readonly) id sender;
+
+/** The object that is receiving the event. */
+@property (nonatomic, assign, readonly) id target;
+
+/** The name of the event. */
+@property (nonatomic, assign, readonly) NSString *eventName;
+
+/** Returns an AFFEventAPI object. */
++ (AFFEventAPI *)eventWithSender:(id)sender name:(NSString *)name;
 
 @end

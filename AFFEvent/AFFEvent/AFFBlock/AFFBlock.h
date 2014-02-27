@@ -27,21 +27,23 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "AFFEventStatics.h"
 
 @class AFFEvent;
 
-typedef NS_OPTIONS(NSUInteger, AFFBlockType)
-{
-    kAFFBlockTypeOneTime = 1 << 1,
-    kAFFBlockTypeWillExecuteInBacground = 1 << 2
-};
-
+/** AFFBlock is a class used for handling a block within an AFFEventAPI. */
 @interface AFFBlock : NSObject
 
-@property (nonatomic, assign) AFFBlockType type;
-@property (nonatomic, assign) BOOL isLocked;
+/** A bitewise mask of block execution characteristics. */
+@property (nonatomic, assign) AFFEventType type;
+
+/** A BOOL determining if the block is locked. If |isLocked| is 'YES' then it will not execute it's block. */
+@property (nonatomic, assign, setter = setLocked:) BOOL isLocked;
+
+/** An NSString that determines the block name. This is usually related to the event name and method. */
 @property (nonatomic, retain) NSString *blockName;
+
+/** The block that belongs to AFFBlock. This will be executed, if enabled, upon an event being fired. */
 @property (nonatomic, copy) void(^block)(AFFEvent *event);
 
 @end
