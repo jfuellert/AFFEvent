@@ -31,7 +31,7 @@
 #import "AFFEventHandler.h"
 #include <objc/message.h>
 
-const NSUInteger kAFFEventHandlerMethodHiddenArgsCount = 2;
+static const NSUInteger kAFFEventHandlerMethodHiddenArgsCount = 2;
 
 @implementation AFFEventHandler
 
@@ -58,7 +58,11 @@ const NSUInteger kAFFEventHandlerMethodHiddenArgsCount = 2;
     if(_observer && _selector) {
         
         if(![_observer respondsToSelector:_selector]) {
-            @throw [NSException exceptionWithName:@"AFFEventInvalidSelectorException" reason:[NSString stringWithFormat:@"\nMethod '%@' was not recognized or does not exist in class '%@'.", NSStringFromSelector(_selector), NSStringFromClass([_observer class])] userInfo:nil];
+            
+            NSString *exceptionName = [NSString localizedStringWithFormat:@"AFFEventInvalidSelectorException", nil];
+            NSString *reason        = [NSString localizedStringWithFormat:@"\nMethod '%@' was not recognized or does not exist in class '%@'.", NSStringFromSelector(_selector), NSStringFromClass([_observer class])];
+            
+            throwException(exceptionName, reason);
         }
         
         NSMethodSignature *signature = [_observer methodSignatureForSelector:_selector];
@@ -67,15 +71,19 @@ const NSUInteger kAFFEventHandlerMethodHiddenArgsCount = 2;
             return;
         }
         
-        NSUInteger signatureCount = [signature numberOfArguments];
-        NSUInteger argumentCount = [_args count];
+        NSUInteger signatureCount = signature.numberOfArguments;
+        NSUInteger argumentCount  = _args.count;
         
         //Two arguments are hidden defaults. Check for correct number of arguments
         if(signatureCount - argumentCount < kAFFEventHandlerMethodHiddenArgsCount) {
-            @throw [NSException exceptionWithName:@"AFFEventHandlerInvalidArgumentCount" reason: [NSString stringWithFormat:@"\nMethod '%@' of class '%@' has an incorrect number of arguments. There was %d needed and %d was given.", NSStringFromSelector(_selector), NSStringFromClass([_observer class]), signatureCount - kAFFEventHandlerMethodHiddenArgsCount, argumentCount]  userInfo:nil];
+            
+            NSString *exceptionName = [NSString localizedStringWithFormat:@"AFFEventHandlerInvalidArgumentCount", nil];
+            NSString *reason        = [NSString localizedStringWithFormat:@"\nMethod '%@' of class '%@' has an incorrect number of arguments. There was %d needed and %d was given.", NSStringFromSelector(_selector), NSStringFromClass([_observer class]), signatureCount - kAFFEventHandlerMethodHiddenArgsCount, argumentCount];
+            
+            throwException(exceptionName, reason);
         }
         
-        if([signature numberOfArguments] > kAFFEventHandlerMethodHiddenArgsCount) {
+        if(signature.numberOfArguments > kAFFEventHandlerMethodHiddenArgsCount) {
             [self setEventObject:event];
         }
         
@@ -86,7 +94,11 @@ const NSUInteger kAFFEventHandlerMethodHiddenArgsCount = 2;
 - (void)setupArgsWithMsgSend {
     
     if(!_observer) {
-        @throw [NSException exceptionWithName:@"AFFEventInvalidObserverException" reason:[NSString stringWithFormat:@"\nMethod '%@' was sent to the deallocated observer class '%@'.", NSStringFromSelector(_selector), NSStringFromClass([_observer class])] userInfo:nil];
+        
+        NSString *exceptionName = [NSString localizedStringWithFormat:@"AFFEventInvalidObserverException", nil];
+        NSString *reason        = [NSString localizedStringWithFormat:@"\nMethod '%@' was sent to the deallocated observer class '%@'.", NSStringFromSelector(_selector), NSStringFromClass([_observer class])];
+        
+        throwException(exceptionName, reason);
     }
     
     switch(_args.count) {
@@ -175,6 +187,11 @@ const NSUInteger kAFFEventHandlerMethodHiddenArgsCount = 2;
     } else {
         [_args insertObject:event atIndex:0];
     }
+}
+
+void throwException(NSString *name, NSString *reason) {
+    
+    @throw [NSException exceptionWithName:name reason:reason userInfo:nil];
 }
 
 - (void)dealloc {
