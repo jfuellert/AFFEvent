@@ -26,8 +26,13 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
+//
+//  Use this in your .pch file.
+//
 
+#import "AFFEvent.h"
 #import "AFFEventAPI.h"
+#import "AFFEventHandler.h"
 #import "AFFEventSystemHandler.h"
 
 #ifndef AFFEventClass

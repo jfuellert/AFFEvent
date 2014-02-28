@@ -28,7 +28,9 @@
 //
 
 #import "AFFBlock.h"
+#import "AFFEvent.h"
 #import "AFFEventAPI.h"
+#import "AFFEventHandler.h"
 #import "AFFEventSystemHandler.h"
 
 @interface AFFEventAPI () {

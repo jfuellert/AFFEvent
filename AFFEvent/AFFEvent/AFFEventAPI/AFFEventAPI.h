@@ -27,8 +27,8 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "AFFEvent.h"
-#import "AFFEventHandler.h"
+@class AFFEvent;
+@class AFFEventHandler;
 
 typedef void(^AFFBlockEvent)(AFFEvent *event);
 
