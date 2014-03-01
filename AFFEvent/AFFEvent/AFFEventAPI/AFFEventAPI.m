@@ -185,7 +185,7 @@ dispatch_queue_t affAPIDispatchQueue(void) {
             [returnHandlers addObject:handlerInSet];
         }
     }
-    return returnHandlers;
+    return [returnHandlers autorelease];
 }
 
 #pragma mark - Block check methods
