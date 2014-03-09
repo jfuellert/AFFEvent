@@ -13,7 +13,7 @@ Copy the AFFEvent folder and contents to your project. Be sure to always use the
 	pod ‘AFFEvent’
 	```
 2. Import this header to your ```<AppName>-Prefix.pch``` file :
-	``` objective-c
+	```
 	#import <AFFEvent/AFFEventCenter.h>
 	```
 
