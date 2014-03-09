@@ -5,6 +5,18 @@ AFFEvent is an alternative event system built for iOS and OSX applications. The 
 ##Purpose
 The purpose of this software is to give developers an alternative way to handle events in iOS. It's primary goal is to minimize delegation usage in areas where it should not necessarily be needed. By removing this need for delegation, classes have more control over events and can do unique things with them including firing an instance event of one class using a another class, using class events, or firing single time events.
 
+##Usage
+1. Install via CocoaPods
+Copy the AFFEvent folder and contents to your project. Be sure to always use the latest release binary for the easiest and most stable installation.
+
+	```
+	pod ‘AFFEvent’
+	```
+2. Import this header to your ```<AppName>-Prefix.pch``` file :
+	``` objective-c
+	#import <AFFEvent/AFFEventCenter.h>
+	```
+
 ##Support
 ####IOS
 Earliest tested and supported build and deployment target - iOS 5.0.
@@ -15,15 +27,7 @@ Earliest tested and supported build and deployment target - OSX 10.6.
 Latest tested and supported build and deployment target - OSX 10.8.
 
 ##ARC Compatibility
-AFFEvent is built from non-ARC and is currently not ARC friendly. Use '-fno-objc-arc' compiler flags in your project's Build Phases for AFFEvent files when using ARC.
-	
-##Installation
-Copy the AFFEvent folder and contents to your project. Be sure to always use the latest release binary for the easiest and most stable installation.
-Add the current line to your <AppName>-Prefix.pch file :
-	
-``` objective-c
-#import "AFFEventCenter.h"
-```
+AFFEvent is built from non-ARC and is currently not ARC friendly. Use ```-fno-objc-arc``` compiler flags in your project's Build Phases for AFFEvent files when using ARC.
 
 ##Event Usage
 ###About
