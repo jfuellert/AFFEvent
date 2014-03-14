@@ -5,9 +5,9 @@ AFFEvent is an alternative event system built for iOS and OSX applications. The 
 ##Purpose
 The purpose of this software is to give developers an alternative way to handle events in iOS. It's primary goal is to minimize delegation usage in areas where it should not necessarily be needed. By removing this need for delegation, classes have more control over events and can do unique things with them including firing an instance event of one class using a another class, using class events, or firing single time events.
 
-##Usage
+##Installation
 1. Install via CocoaPods
-Copy the AFFEvent folder and contents to your project. Be sure to always use the latest release binary for the easiest and most stable installation.
+Add the following line to your .podfile
 
 	```
 	pod ‘AFFEvent’
@@ -20,7 +20,7 @@ Copy the AFFEvent folder and contents to your project. Be sure to always use the
 ##Support
 ####IOS
 Earliest tested and supported build and deployment target - iOS 5.0.
-Latest tested and supported build and deployment target - iOS 7.0.
+Latest tested and supported build and deployment target - iOS 7.1.
 
 ####OSX
 Earliest tested and supported build and deployment target - OSX 10.6.
@@ -260,15 +260,3 @@ Here is an example of basic usage of AFFEvents. An event is first created in the
 
     @end
 ``` 
-
-##Changelog
-- August 9, 2013: Released 1.3.1. This is a minor patch which changes the default background thread queue priority for handlers.
-- August 6, 2013: Released 1.3.0. This release features small additions to selector and block handlers by allowing execution in a background thread. 
-- August 5, 2013: Released 1.2.0. This is a small feature release to extend on block support. 
-- August 5, 2013: Confirmed compatibility with MAC OSX 1.06 - 1.08. 
-- August 5, 2013: Released version 1.1.0. This release features newly added block support with functionality similar to that of selector handlers as well as bug fixes. 
-- August 4, 2013: Added the ability to use blocks instead of selectors when listening to an event. This will allow for more simplicity and flexibility.
-- July 31, 2013: Temporarily removed ARC support due to leaks (1.0.1).
-- July 30, 2013	: Released 1.0.0. First stable release.
-- July 28, 2013	: Added AFFEventAPI locks and unlocks. This will allow for more control over an event's handlers.
-- July 25, 2013: Added performance tweaks.
